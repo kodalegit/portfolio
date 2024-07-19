@@ -1,2 +1,2 @@
-# portfolio
-Portfolio website
+# Portfolio
+Portfolio website written in Nextjs.
