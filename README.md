@@ -1,2 +1,3 @@
 # Portfolio
-Portfolio website written in Nextjs.
+
+Portfolio website built with Nextjs(TypeScript).
