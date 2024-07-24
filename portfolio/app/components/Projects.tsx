@@ -1,14 +1,20 @@
 import Image from "next/image";
 import Baini from "@/public/Baini.png";
 import Ujenzi from "@/public/Ujenzi.png";
+import { Separator } from "./ui/separator";
 
 function Projects() {
   return (
-    <section>
-      <h1 className="font-bold text-2xl my-2">Some of my work</h1>
-      <div className="my-2">
-        <h2 className="font-semibold text-xl">Baini</h2>
-        <div>
+    <section className="max-w-4xl w-full p-8 min-h-screen">
+      <div className="flex items-center">
+        <Separator className="w-1/2 mr-5 bg-slate-700" />
+        <h1 className="font-bold text-4xl my-2">
+          Some of my work<span className="text-green-400">.</span>
+        </h1>
+      </div>
+      <div className="my-4">
+        <h2 className="font-semibold text-2xl text-green-300">Baini</h2>
+        <div className="my-6">
           <Image src={Baini} alt="Baini Screenshot" width={800} height={400} />
         </div>
         <div>
@@ -27,14 +33,19 @@ function Projects() {
             <p>Firebase</p>
             <p>Cloud Firestore</p>
           </div>
-          <a className="hover:underline" href="https://baini-images.web.app/">
+          <a
+            className="font-bold underline decoration-green-400 underline-offset-4 transition-all hover:underline hover:decoration-green-600 hover:decoration-2"
+            href="https://baini-images.web.app/"
+            target="_blank"
+            rel="noopener"
+          >
             Visit
           </a>
         </div>
       </div>
-      <div className="my-2">
-        <h2 className="font-semibold text-xl">Ujenzi</h2>
-        <div>
+      <div className="my-8">
+        <h2 className="font-semibold text-2xl text-green-300">Ujenzi</h2>
+        <div className="my-6">
           <Image
             src={Ujenzi}
             alt="Ujenzi Screenshot"
@@ -57,7 +68,12 @@ function Projects() {
             <p>Google Cloud Platform</p>
             <p>PostgreSQL</p>
           </div>
-          <a className="hover:underline" href="https://ujenzi.tech/">
+          <a
+            className="font-bold underline decoration-green-400 underline-offset-4 transition-all hover:underline hover:decoration-green-600 hover:decoration-2"
+            href="https://ujenzi.tech/"
+            target="_blank"
+            rel="noopener"
+          >
             Visit
           </a>
         </div>
