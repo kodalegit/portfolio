@@ -2,10 +2,20 @@ import Image from "next/image";
 import Baini from "@/public/Baini.png";
 import Ujenzi from "@/public/Ujenzi.png";
 import { Separator } from "./ui/separator";
+import { useRef } from "react";
+import useInViewPort from "../hooks/useActiveSection";
+import { setActiveProps } from "../types/types";
 
-function Projects() {
+function Projects({ setActiveSection }: setActiveProps) {
+  const targetRef = useRef<HTMLDivElement>(null);
+  const inViewport = useInViewPort(targetRef, { threshold: 0.4 });
+  inViewport && setActiveSection("projects");
   return (
-    <section className="max-w-4xl w-full p-8 min-h-screen">
+    <section
+      ref={targetRef}
+      id="projects"
+      className="max-w-4xl w-full p-8 min-h-screen"
+    >
       <div className="flex items-center">
         <Separator className="w-1/2 mr-5 bg-slate-700" />
         <h1 className="font-bold text-4xl my-2">

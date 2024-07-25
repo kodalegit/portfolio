@@ -1,15 +1,25 @@
 import { Separator } from "./ui/separator";
+import { useRef } from "react";
+import useInViewPort from "../hooks/useActiveSection";
+import { setActiveProps } from "../types/types";
 
-function About() {
+function About({ setActiveSection }: setActiveProps) {
+  const targetRef = useRef<HTMLDivElement>(null);
+  const inViewport = useInViewPort(targetRef, { threshold: 0.5 });
+  inViewport && setActiveSection("about");
   return (
-    <section className="max-w-4xl w-full p-8 min-h-screen">
+    <section
+      ref={targetRef}
+      id="about"
+      className="max-w-4xl w-full p-8 min-h-screen"
+    >
       <div className="flex items-center w-10/12">
         <h1 className="font-bold text-4xl my-2">
           About Me<span className="text-green-400">.</span>
         </h1>
         <Separator className="w-2/3 ml-5 bg-slate-700" />
       </div>
-      <p className="text-slate-400 font-light mt-6 w-10/12">
+      <div className="text-slate-400 font-light mt-6 w-10/12">
         I am passionate about solving problems in an elegant and performant way.
         I started out designing and building physical solutions as a civil
         engineer then transitioned into the limitless digital world where I'm
@@ -31,7 +41,7 @@ function About() {
           I am open to opportunities that can enable me to grow, innovate and
           challenge the bounds of what is thought to be possible.
         </p>
-      </p>
+      </div>
     </section>
   );
 }
