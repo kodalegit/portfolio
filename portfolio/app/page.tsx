@@ -14,9 +14,9 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState("");
   return (
     <div>
-      {/* <NavBar /> */}
+      <NavBar />
       <SideBar activeSection={activeSection} />
-      <main className="flex flex-col items-center">
+      <main className="flex flex-col items-center ml-16">
         <Reveal>
           <Intro />
         </Reveal>

@@ -1,6 +1,6 @@
 function Intro() {
   return (
-    <section className="max-w-4xl w-full p-32 min-h-screen">
+    <section className="max-w-4xl w-full pt-36 pl-20 pr-3 md:pr-12 lg:pt-36 lg:pl-16 mb-4 min-h-screen">
       <p className="text-green-400 pb-4">Hi, my name is</p>
       <p className="text-6xl font-extrabold">
         Victor Kimani<span className="text-green-400">.</span>
