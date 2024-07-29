@@ -13,11 +13,11 @@ function Experience({ setActiveSection }: setActiveProps) {
       id="experience"
       className="max-w-4xl w-full p-8 min-h-screen"
     >
-      <div className="flex items-center">
-        <h1 className="font-bold text-4xl my-2">
+      <div className="flex items-center w-8/12">
+        <h1 className="font-bold text-2xl md:text-4xl my-2 flex-shrink-0">
           Experience<span className="text-green-400">.</span>
         </h1>
-        <Separator className="w-2/3 ml-5 bg-slate-700" />
+        <Separator className="flex-grow ml-5 bg-slate-700" />
       </div>
       <div className="my-4">
         <h2 className="font-semibold text-xl">

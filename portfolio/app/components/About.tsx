@@ -13,13 +13,13 @@ function About({ setActiveSection }: setActiveProps) {
       id="about"
       className="max-w-4xl w-full p-8 min-h-screen"
     >
-      <div className="flex items-center w-10/12">
-        <h1 className="font-bold text-4xl my-2">
+      <div className="flex items-center w-8/12">
+        <h1 className="font-bold text-2xl md:text-4xl my-2 flex-shrink-0">
           About Me<span className="text-green-400">.</span>
         </h1>
-        <Separator className="w-2/3 ml-5 bg-slate-700" />
+        <Separator className="flex-grow ml-5 bg-slate-700" />
       </div>
-      <div className="text-slate-400 font-light mt-6 w-10/12">
+      <div className="text-slate-400 font-light mt-6 w-full md:w-10/12">
         I am passionate about solving problems in an elegant and performant way.
         I started out designing and building physical solutions as a civil
         engineer then transitioned into the limitless digital world where I'm
