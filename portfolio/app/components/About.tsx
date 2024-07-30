@@ -22,7 +22,7 @@ function About({ setActiveSection }: setActiveProps) {
       <div className="text-slate-400 font-light mt-6 w-full md:w-10/12">
         I am passionate about solving problems in an elegant and performant way.
         I started out designing and building physical solutions as a civil
-        engineer then transitioned into the limitless digital world where I'm
+        engineer then transitioned into the limitless digital world where I am
         unbound by the laws of Physics(sort of).
         <p className="mt-2">
           I am currently working on{" "}
