@@ -73,7 +73,11 @@ function Projects({ setActiveSection }: setActiveProps) {
                   Visit
                 </a>
               </Button>
-              <a href="https://github.com/kodalegit">
+              <a
+                href="https://github.com/kodalegit"
+                target="_blank"
+                rel="noopener"
+              >
                 <FlatGitHubIcon />
               </a>
             </div>
@@ -127,7 +131,11 @@ function Projects({ setActiveSection }: setActiveProps) {
                   Visit
                 </a>
               </Button>
-              <a href="https://github.com/kodalegit/mlvalidation">
+              <a
+                href="https://github.com/kodalegit/mlvalidation"
+                target="_blank"
+                rel="noopener"
+              >
                 <FlatGitHubIcon />
               </a>
             </div>
