@@ -4,6 +4,13 @@ import useInViewPort from "../hooks/useActiveSection";
 import { setActiveProps } from "../types/types";
 import { Button } from "./ui/button";
 import FlatGitHubIcon from "./icons/FlatGitHubIcon";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/app/components/ui/dialog";
 
 function Projects({ setActiveSection }: setActiveProps) {
   const targetRef = useRef<HTMLDivElement>(null);
@@ -51,16 +58,31 @@ function Projects({ setActiveSection }: setActiveProps) {
               <p className="bg-slate-700 px-1 rounded-lg">Cloud Firestore</p>
             </div>
             <div className="flex gap-4 justify-center items-center">
-              <Button
-                size="sm"
-                variant="outline"
-                className="bg-transparent rounded-3xl"
-                asChild
-              >
-                <a href="" target="_blank" rel="noopener">
-                  Preview
-                </a>
-              </Button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="bg-transparent rounded-3xl"
+                  >
+                    Preview
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="bg-slate-900">
+                  <DialogHeader>
+                    <DialogTitle>Project Preview</DialogTitle>
+                  </DialogHeader>
+                  <video
+                    src="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Baini%20-%20Google%20Chrome%202024-07-30%2023-04-55-Sq9g9Ihl5drwc2IYFCGtGwFzczyIQq.mp4"
+                    controls
+                    autoPlay
+                    loop
+                    muted
+                    preload="none"
+                    className="w-full h-auto"
+                  ></video>
+                </DialogContent>
+              </Dialog>
               <Button
                 size="sm"
                 variant="outline"
@@ -76,7 +98,7 @@ function Projects({ setActiveSection }: setActiveProps) {
                 </a>
               </Button>
               <a
-                href="https://github.com/kodalegit"
+                href="https://github.com/kodalegit/expressauth"
                 target="_blank"
                 rel="noopener"
               >
@@ -115,16 +137,31 @@ function Projects({ setActiveSection }: setActiveProps) {
               <p className="bg-slate-700 px-1 rounded-lg">PostgreSQL</p>
             </div>
             <div className="flex gap-4 justify-center items-center">
-              <Button
-                size="sm"
-                variant="outline"
-                className="bg-transparent rounded-3xl"
-                asChild
-              >
-                <a href="" target="_blank" rel="noopener">
-                  Preview
-                </a>
-              </Button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="bg-transparent rounded-3xl"
+                  >
+                    Preview
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="bg-slate-900">
+                  <DialogHeader>
+                    <DialogTitle>Project Preview</DialogTitle>
+                  </DialogHeader>
+                  <video
+                    src="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Ujenzi%20-%20Trim%20-%20Google%20Chrome%202024-07-30%2023-52-24-qgSiO2dFedgcvWLkPDGWEkFq1HQQpA.mp4"
+                    controls
+                    autoPlay
+                    loop
+                    muted
+                    preload="none"
+                    className="w-full h-auto"
+                  ></video>
+                </DialogContent>
+              </Dialog>
               <Button
                 size="sm"
                 variant="outline"

@@ -1,10 +1,12 @@
 "use client";
-import useActiveSection from "../hooks/useActiveSection";
 
 function SideBar({ activeSection }: { activeSection: string }) {
   return (
-    <nav className="bg-slate-950 w-16 h-full fixed left-0 top-0 z-10 mt-16">
+    <nav className="bg-slate-950 w-16 h-full fixed left-0 top-0 z-10">
       <div className="flex flex-col items-center space-y-8">
+        <div className="flex justify-center items-center w-10 h-10 mt-2 rounded-sm bg-gray-600 font-extrabold">
+          VK<span className="text-green-400">.</span>
+        </div>
         <div
           className={`flex justify-center items-center w-24 h-16 ${
             activeSection === "about"

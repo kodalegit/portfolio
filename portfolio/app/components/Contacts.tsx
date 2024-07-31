@@ -2,7 +2,6 @@ import { useRef } from "react";
 import useInViewPort from "../hooks/useActiveSection";
 import { setActiveProps } from "../types/types";
 import EmailIcon from "./icons/EmailIcon";
-import { Separator } from "./ui/separator";
 
 function Contacts({ setActiveSection }: setActiveProps) {
   const targetRef = useRef<HTMLDivElement>(null);
