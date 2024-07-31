@@ -187,7 +187,7 @@ function Projects({ setActiveSection }: setActiveProps) {
       <div
         className="relative h-96 md:mt-12 bg-cover bg-center rounded-md md:mx-2 lg:mx-20"
         style={{
-          backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/TicTacToeAI-mU7BErnBVwbbEEtsvcjPi3MTkR8kIK.png')`,
+          backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/TictactoeAI-0rkQUQRTPQgbSRewD8LLEt6xIvkinR.png')`,
         }}
       >
         <div className="absolute inset-0 bg-slate-900 bg-opacity-95 flex items-center justify-center">
