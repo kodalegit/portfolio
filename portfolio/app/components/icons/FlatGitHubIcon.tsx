@@ -3,7 +3,7 @@ function FlatGitHubIcon() {
     <svg
       id="Layer_1"
       viewBox="0 0 24 24"
-      className="size-8 fill-slate-300 hover:fill-slate-50"
+      className="size-8 fill-slate-300 hover:fill-white"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g>

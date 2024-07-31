@@ -17,7 +17,7 @@ function About({ setActiveSection }: setActiveProps) {
         <h1 className="font-bold text-2xl md:text-4xl my-2 flex-shrink-0">
           About Me<span className="text-green-400">.</span>
         </h1>
-        <Separator className="flex-grow ml-5 bg-slate-700" />
+        <Separator className="flex-grow ml-3 max-w-96 bg-slate-700" />
       </div>
       <div className="text-slate-400 font-light mt-6 w-full md:w-10/12">
         I am passionate about solving problems in an elegant and performant way.

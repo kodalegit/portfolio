@@ -17,7 +17,7 @@ function Experience({ setActiveSection }: setActiveProps) {
         <h1 className="font-bold text-2xl md:text-4xl my-2 flex-shrink-0">
           Experience<span className="text-green-400">.</span>
         </h1>
-        <Separator className="flex-grow ml-5 bg-slate-700" />
+        <Separator className="flex-grow ml-2 w-10/12 max-w-96 bg-slate-700" />
       </div>
       <div className="my-4">
         <h2 className="font-semibold text-xl">

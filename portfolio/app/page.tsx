@@ -24,8 +24,6 @@ export default function Home() {
           <About setActiveSection={setActiveSection} />
         </Reveal>
         <Projects setActiveSection={setActiveSection} />
-        {/* <Reveal>
-        </Reveal> */}
         <Reveal>
           <Experience setActiveSection={setActiveSection} />
         </Reveal>

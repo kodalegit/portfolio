@@ -15,18 +15,20 @@ function Projects({ setActiveSection }: setActiveProps) {
       id="projects"
       className="w-full p-4 md:p-8 min-h-screen"
     >
-      <div className="flex items-center w-7/12">
-        <Separator className="flex-grow mr-5 bg-slate-700" />
-        <h1 className="font-bold text-2xl md:text-4xl my-2 flex-shrink-0">
-          Some of my work<span className="text-green-400">.</span>
+      <div className="flex items-center justify-end max-w-4xl">
+        <Separator className="mr-3 w-8/12 max-w-96 bg-slate-700" />
+        <h1 className="font-bold text-2xl md:text-4xl my-2 pr-2">
+          Projects<span className="text-green-400">.</span>
         </h1>
       </div>
       <div
-        className="relative w-full my-2 h-96 bg-cover bg-center rounded-md"
-        style={{ backgroundImage: `url('/Baini.png')` }}
+        className="relative mt-6 h-96 bg-cover bg-center rounded-md md:mx-2 lg:mx-20"
+        style={{
+          backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Baini-AHSGlxIvUiO5CQE8d5ED4yosBSLGLz.png')`,
+        }}
       >
         <div className="absolute inset-0 bg-slate-900 bg-opacity-95 flex items-center justify-center">
-          <div className="text-left text-slate-400 p-2 md:p-8 max-sm:text-sm">
+          <div className="text-left text-slate-400 p-2 md:p-8 max-sm:text-sm max-w-screen-md">
             <h2 className="font-semibold text-2xl md:text-4xl mb-4 text-green-500">
               Baini
             </h2>
@@ -86,11 +88,13 @@ function Projects({ setActiveSection }: setActiveProps) {
       </div>
 
       <div
-        className="relative w-full h-96 bg-cover bg-center mt-10 rounded-md"
-        style={{ backgroundImage: `url('/Ujenzi.png')` }}
+        className="relative mt-12 h-96 bg-cover bg-center rounded-md md:mx-2 lg:mx-20"
+        style={{
+          backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Ujenzi-47KC9J9e9Jy3R0Hw1jzkY0ffDgXV9E.png')`,
+        }}
       >
         <div className="absolute inset-0 bg-slate-900 bg-opacity-95 flex items-center justify-center">
-          <div className="text-left text-slate-400 p-4 md:p-8 max-sm:text-sm">
+          <div className="text-left text-slate-400 p-4 md:p-8 max-sm:text-sm max-w-screen-md">
             <h2 className="font-semibold text-2xl md:text-4xl mb-4 text-green-500">
               Ujenzi
             </h2>

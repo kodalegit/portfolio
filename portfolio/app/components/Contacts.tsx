@@ -2,6 +2,7 @@ import { useRef } from "react";
 import useInViewPort from "../hooks/useActiveSection";
 import { setActiveProps } from "../types/types";
 import EmailIcon from "./icons/EmailIcon";
+import { Separator } from "./ui/separator";
 
 function Contacts({ setActiveSection }: setActiveProps) {
   const targetRef = useRef<HTMLDivElement>(null);
@@ -13,7 +14,7 @@ function Contacts({ setActiveSection }: setActiveProps) {
       id="contacts"
       className="max-w-4xl w-full p-8 min-h-screen"
     >
-      <div className="flex items-center">
+      <div className="flex items-center justify-center">
         <h1 className="font-bold text-3xl md:text-5xl my-2">
           Get In Touch<span className="text-green-400">.</span>
         </h1>
