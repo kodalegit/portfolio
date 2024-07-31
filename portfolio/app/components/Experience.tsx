@@ -11,7 +11,7 @@ function Experience({ setActiveSection }: setActiveProps) {
     <section
       ref={targetRef}
       id="experience"
-      className="max-w-4xl w-full p-8 min-h-screen"
+      className="max-w-4xl w-full p-8 min-h-screen mt-10"
     >
       <div className="flex items-center w-8/12">
         <h1 className="font-bold text-2xl md:text-4xl my-2 flex-shrink-0">
