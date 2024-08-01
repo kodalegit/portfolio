@@ -16,7 +16,11 @@ function NavBar() {
             >
               <LinkedInIcon />
             </a>
-            <a href="https://github.com/kodalegit">
+            <a
+              href="https://github.com/kodalegit"
+              target="_blank"
+              rel="noopener"
+            >
               <FillGitHubIcon />
             </a>
 

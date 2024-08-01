@@ -18,7 +18,7 @@ function About({ setActiveSection }: setActiveProps) {
       id="about"
       className="max-w-4xl w-full pt-10 p-8 min-h-screen"
     >
-      <div className="flex items-center w-8/12">
+      <div className="flex items-center w-1/2 md:w-8/12">
         <h1 className="font-bold text-2xl md:text-4xl my-2 flex-shrink-0">
           About Me<span className="text-green-400">.</span>
         </h1>

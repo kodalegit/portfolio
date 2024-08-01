@@ -28,7 +28,7 @@ function Projects({ setActiveSection }: setActiveProps) {
       className="w-full p-4 pt-10 md:p-8 min-h-screen"
     >
       <div className="flex items-center justify-end max-w-4xl">
-        <Separator className="mr-3 w-8/12 max-w-96 bg-slate-700" />
+        <Separator className="mr-3 w-1/2 md:w-8/12 max-w-96 bg-slate-700" />
         <h1 className="font-bold text-2xl md:text-4xl my-2 pr-2">
           Projects<span className="text-green-400">.</span>
         </h1>
