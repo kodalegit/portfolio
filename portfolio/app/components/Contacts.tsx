@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import useInViewPort from "../hooks/useActiveSection";
 import { setActiveProps } from "../types/types";
 import EmailIcon from "./icons/EmailIcon";
@@ -6,12 +6,17 @@ import EmailIcon from "./icons/EmailIcon";
 function Contacts({ setActiveSection }: setActiveProps) {
   const targetRef = useRef<HTMLDivElement>(null);
   const inViewport = useInViewPort(targetRef, { threshold: 0.5 });
-  inViewport && setActiveSection("contacts");
+  useEffect(() => {
+    if (inViewport) {
+      setActiveSection("contacts");
+    }
+  }, [inViewport, setActiveSection]);
+
   return (
     <section
       ref={targetRef}
       id="contacts"
-      className="max-w-4xl w-full p-8 min-h-screen"
+      className="max-w-4xl w-full p-8 pt-10 min-h-screen"
     >
       <div className="flex items-center justify-center">
         <h1 className="font-bold text-3xl md:text-5xl my-2">

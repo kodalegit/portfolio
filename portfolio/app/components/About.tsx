@@ -1,17 +1,22 @@
 import { Separator } from "./ui/separator";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import useInViewPort from "../hooks/useActiveSection";
 import { setActiveProps } from "../types/types";
 
 function About({ setActiveSection }: setActiveProps) {
   const targetRef = useRef<HTMLDivElement>(null);
   const inViewport = useInViewPort(targetRef, { threshold: 0.5 });
-  inViewport && setActiveSection("about");
+  useEffect(() => {
+    if (inViewport) {
+      setActiveSection("about");
+    }
+  }, [inViewport, setActiveSection]);
+
   return (
     <section
       ref={targetRef}
       id="about"
-      className="max-w-4xl w-full p-8 min-h-screen"
+      className="max-w-4xl w-full pt-10 p-8 min-h-screen"
     >
       <div className="flex items-center w-8/12">
         <h1 className="font-bold text-2xl md:text-4xl my-2 flex-shrink-0">

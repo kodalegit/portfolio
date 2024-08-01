@@ -1,5 +1,5 @@
 import { Separator } from "./ui/separator";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import useInViewPort from "../hooks/useActiveSection";
 import { setActiveProps } from "../types/types";
 import { Button } from "./ui/button";
@@ -15,12 +15,17 @@ import {
 function Projects({ setActiveSection }: setActiveProps) {
   const targetRef = useRef<HTMLDivElement>(null);
   const inViewport = useInViewPort(targetRef, { threshold: 0.3 });
-  inViewport && setActiveSection("projects");
+  useEffect(() => {
+    if (inViewport) {
+      setActiveSection("projects");
+    }
+  }, [inViewport, setActiveSection]);
+
   return (
     <section
       ref={targetRef}
       id="projects"
-      className="w-full p-4 md:p-8 min-h-screen"
+      className="w-full p-4 pt-10 md:p-8 min-h-screen"
     >
       <div className="flex items-center justify-end max-w-4xl">
         <Separator className="mr-3 w-8/12 max-w-96 bg-slate-700" />
@@ -185,7 +190,7 @@ function Projects({ setActiveSection }: setActiveProps) {
       </div>
 
       <div
-        className="relative h-96 md:mt-12 bg-cover bg-center rounded-md md:mx-2 lg:mx-20"
+        className="relative h-96 mt-12 bg-auto bg-center rounded-md md:mx-2 lg:mx-20"
         style={{
           backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/TictactoeAI-0rkQUQRTPQgbSRewD8LLEt6xIvkinR.png')`,
         }}
@@ -219,7 +224,7 @@ function Projects({ setActiveSection }: setActiveProps) {
       </div>
 
       <div
-        className="relative md:mt-12 h-96 bg-cover bg-center rounded-md md:mx-2 lg:mx-20"
+        className="relative mt-12 h-96 bg-auto bg-center rounded-md md:mx-2 lg:mx-20"
         style={{
           backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/MineSweeperAI-nAGCxVeiQsg5OJBqdNEeMS5a5tk5R8.png')`,
         }}
