@@ -103,7 +103,7 @@ function Projects({ setActiveSection }: setActiveProps) {
                 </a>
               </Button>
               <a
-                href="https://github.com/kodalegit/expressauth"
+                href="https://github.com/kodalegit/baini-public"
                 target="_blank"
                 rel="noopener"
               >
