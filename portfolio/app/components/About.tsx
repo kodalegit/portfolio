@@ -25,10 +25,12 @@ function About({ setActiveSection }: setActiveProps) {
         <Separator className="flex-grow ml-3 max-w-96 bg-slate-700" />
       </div>
       <div className="text-slate-400 font-light mt-6 w-full md:w-10/12">
-        I am passionate about solving problems in an elegant and performant way.
-        I started out designing and building physical solutions as a civil
-        engineer then transitioned into the limitless digital world where I am
-        unbound by the laws of Physics(sort of).
+        I have always loved building things. I began my journey designing and
+        building physical solutions as a civil engineer before discovering my
+        passion for programming. Being able to create good software is a
+        superpower that lifts the boundaries of what is thought to be possible.
+        I am excited to see how far I can push these boundaries and how many
+        more problems I can solve.
         <p className="mt-2">
           I am currently working on{" "}
           <a
@@ -43,8 +45,7 @@ function About({ setActiveSection }: setActiveProps) {
           images and verify provenance information.
         </p>
         <p className="mt-2">
-          I am open to opportunities that can enable me to grow, innovate and
-          challenge the bounds of what is thought to be possible.
+          I am currently open to interesting opportunities to apply my skills.
         </p>
       </div>
     </section>
