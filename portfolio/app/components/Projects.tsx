@@ -78,7 +78,7 @@ function Projects({ setActiveSection }: setActiveProps) {
                     <DialogTitle>Project Preview</DialogTitle>
                   </DialogHeader>
                   <video
-                    src="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Baini%20-%20Google%20Chrome%202024-07-30%2023-04-55-Sq9g9Ihl5drwc2IYFCGtGwFzczyIQq.mp4"
+                    src="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Videos/Baini%20-%20Google%20Chrome%202024-08-20%2000-56-19-m8c3fIblqgTPcztQnsLC4uTE7njTJZ.mp4"
                     controls
                     autoPlay
                     loop
