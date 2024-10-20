@@ -190,6 +190,42 @@ function Projects({ setActiveSection }: setActiveProps) {
       </div>
 
       <div
+        className="relative mt-12 h-96 bg-auto bg-center rounded-md md:mx-2 lg:mx-20"
+        style={{
+          backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/reactify-django-JmAuDeCPzaNIIPvgALaSByDjAuujS0.png')`,
+        }}
+      >
+        <div className="absolute inset-0 bg-slate-900 bg-opacity-95 flex items-center justify-center">
+          <div className="text-left text-slate-400 p-4 md:p-8 max-sm:text-sm max-w-screen-md">
+            <h2 className="font-semibold text-2xl md:text-4xl mb-4 text-green-500">
+              reactify-django CLI
+            </h2>
+            <p className="mb-4">
+              A CLI tool that automatically configures React within a Django
+              project with built-in Webpack support. Users can either integrate
+              React into an existing Django project or scaffold a new Django
+              project with React from scratch. The CLI also offers options for
+              TypeScript support and Tailwind CSS. The package is published on
+              npm.
+            </p>
+            <div className="flex flex-wrap gap-2 justify-center mb-4">
+              <p className="bg-slate-700 px-1 rounded-lg">TypeScript</p>
+              <p className="bg-slate-700 px-1 rounded-lg">npm</p>
+            </div>
+            <div className="flex justify-center">
+              <a
+                href="https://github.com/kodalegit/reactify-django"
+                target="_blank"
+                rel="noopener"
+              >
+                <FlatGitHubIcon />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
         className="relative h-96 mt-12 bg-auto bg-center rounded-md md:mx-2 lg:mx-20"
         style={{
           backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/TictactoeAI-0rkQUQRTPQgbSRewD8LLEt6xIvkinR.png')`,
@@ -213,38 +249,6 @@ function Projects({ setActiveSection }: setActiveProps) {
             <div className="flex justify-center">
               <a
                 href="https://github.com/kodalegit/tictactoeAI"
-                target="_blank"
-                rel="noopener"
-              >
-                <FlatGitHubIcon />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        className="relative mt-12 h-96 bg-auto bg-center rounded-md md:mx-2 lg:mx-20"
-        style={{
-          backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/MineSweeperAI-nAGCxVeiQsg5OJBqdNEeMS5a5tk5R8.png')`,
-        }}
-      >
-        <div className="absolute inset-0 bg-slate-900 bg-opacity-95 flex items-center justify-center">
-          <div className="text-left text-slate-400 p-4 md:p-8 max-sm:text-sm max-w-screen-md">
-            <h2 className="font-semibold text-2xl md:text-4xl mb-4 text-green-500">
-              Minesweeper AI
-            </h2>
-            <p className="mb-4">
-              Built an artificial intelligence agent that plays MineSweeper and
-              maximizes the chance of winning. The AI agent utilizes a knowledge
-              base and inference to determine the safest move to make.
-            </p>
-            <div className="flex justify-center mb-4">
-              <p className="bg-slate-700 px-1 rounded-lg">Python</p>
-            </div>
-            <div className="flex justify-center">
-              <a
-                href="https://github.com/kodalegit/minesweeperAI"
                 target="_blank"
                 rel="noopener"
               >
