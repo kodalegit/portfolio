@@ -26,8 +26,21 @@ function Experience({ setActiveSection }: setActiveProps) {
       </div>
       <div className="my-4">
         <h2 className="font-semibold text-xl">
-          <span className="text-green-400">Full-Stack Developer Intern </span>@
-          Boxraft Ltd
+          <span className="text-green-400">Sofware Engineer</span> @ Islet Group
+        </h2>
+        <p className="text-slate-400 text-sm mt-1">2024 - Present</p>
+        <p className="text-slate-400 mt-3">
+          Designed and developed responsive websites using modern frameworks,
+          optimizing performance and implementing SEO best practices. Built
+          custom plugins to integrate front-end interfaces with backend APIs,
+          collaborating with clients to deliver tailored, high-performing
+          solutions.
+        </p>
+      </div>
+      <div className="my-4">
+        <h2 className="font-semibold text-xl">
+          <span className="text-green-400">Full-Stack Developer </span>@ Boxraft
+          Ltd
         </h2>
         <p className="text-slate-400 text-sm mt-1">Oct 2023 - Dec 2023</p>
         <p className="text-slate-400 mt-3">
