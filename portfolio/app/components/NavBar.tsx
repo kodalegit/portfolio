@@ -37,7 +37,7 @@ function NavBar() {
               <a
                 target="_blank"
                 rel="noopener"
-                href="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/resume-KxQKINtSocQ4GCykzw9V4DkQLci7ku.pdf"
+                href="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Resume-yUbZiuHKvva43CbN0dtp5ZDgyFfdhS.pdf"
               >
                 Resume
               </a>
