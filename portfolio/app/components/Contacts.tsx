@@ -26,6 +26,8 @@ function Contacts({ setActiveSection }: setActiveProps) {
       <p>
         Find me on email if you want to connect. You can also reach me on my{" "}
         <a
+          target="_blank"
+          rel="noopener"
           className="font-bold underline decoration-green-400 underline-offset-4 transition-all hover:underline hover:decoration-green-600 hover:decoration-2"
           href="https://www.linkedin.com/in/victorkimani77/"
         >

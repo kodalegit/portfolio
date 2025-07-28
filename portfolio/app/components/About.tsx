@@ -35,14 +35,14 @@ function About({ setActiveSection }: setActiveProps) {
           I am currently working on{" "}
           <a
             className="font-bold underline decoration-green-400 underline-offset-4 transition-all hover:underline hover:decoration-green-600 hover:decoration-2"
-            href="https://baini-images.web.app/"
+            href="https://uwazo.com/"
             target="_blank"
             rel="noopener"
           >
-            Baini
+            Uwazo
           </a>
-          , a platform that enables creators to cryptographically sign their
-          images and verify provenance information.
+          , a platform that enables lawyers and tax professionals to draft
+          AI-backed legal opinions.
         </p>
         <p className="mt-2">
           I am currently open to interesting opportunities to apply my skills.

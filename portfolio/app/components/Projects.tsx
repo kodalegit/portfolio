@@ -36,6 +36,78 @@ function Projects({ setActiveSection }: setActiveProps) {
       <div
         className="relative mt-6 h-96 bg-cover bg-center rounded-md md:mx-2 lg:mx-20"
         style={{
+          backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Uwazo%20Screenshot%202025-07-28%20181837.png')`,
+        }}
+      >
+        <div className="absolute inset-0 bg-slate-900 bg-opacity-95 flex items-center justify-center">
+          <div className="text-left text-slate-400 p-2 md:p-8 max-sm:text-sm max-w-screen-md">
+            <h2 className="font-semibold text-2xl md:text-4xl mb-4 text-green-500">
+              Uwazo
+            </h2>
+            <p className="mb-4">
+              Uwazo is an AI-powered legal assistant for lawyers and tax
+              professionals. It uses an agentic workflow combining
+              Retrieval-Augmented Generation (RAG) and web search to answer
+              complex queries grounded in tax law, case law, and business
+              regulations. Users can upload documents for context-aware
+              responses, work across multiple isolated workspaces, and benefit
+              from personalized outputs through memory-based user profiling.
+            </p>
+            <div className="flex flex-wrap gap-2 justify-center mb-4">
+              <p className="bg-slate-700 px-1 rounded-lg">Next.js</p>
+              <p className="bg-slate-700 px-1 rounded-lg">TypeScript</p>
+              <p className="bg-slate-700 px-1 rounded-lg">FastAPI</p>
+              <p className="bg-slate-700 px-1 rounded-lg">Python</p>
+              <p className="bg-slate-700 px-1 rounded-lg">Docker</p>
+              <p className="bg-slate-700 px-1 rounded-lg">
+                Google Cloud Platform
+              </p>
+              <p className="bg-slate-700 px-1 rounded-lg">Vercel</p>
+            </div>
+            <div className="flex gap-4 justify-center items-center">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="bg-transparent rounded-3xl"
+                  >
+                    Preview
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="bg-slate-900">
+                  <DialogHeader>
+                    <DialogTitle>Project Preview</DialogTitle>
+                  </DialogHeader>
+                  <video
+                    src="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Videos/Uwazo%20Recording%202025-07-28%20175630.mp4"
+                    controls
+                    autoPlay
+                    loop
+                    muted
+                    preload="none"
+                    className="w-full h-auto"
+                  ></video>
+                </DialogContent>
+              </Dialog>
+              <Button
+                size="sm"
+                variant="outline"
+                className="bg-transparent rounded-3xl"
+                asChild
+              >
+                <a href="https://www.uwazo.com/" target="_blank" rel="noopener">
+                  Visit
+                </a>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="relative mt-6 h-96 bg-cover bg-center rounded-md md:mx-2 lg:mx-20"
+        style={{
           backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Baini-AHSGlxIvUiO5CQE8d5ED4yosBSLGLz.png')`,
         }}
       >
