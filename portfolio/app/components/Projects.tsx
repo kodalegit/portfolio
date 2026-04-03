@@ -66,13 +66,27 @@ function Projects({ setActiveSection }: setActiveProps) {
               from personalized outputs through memory-based user profiling.
             </p>
             <div className="flex flex-wrap gap-1.5 justify-center mb-5">
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">Next.js</span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">TypeScript</span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">FastAPI</span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">Python</span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">Docker</span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">GCP</span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">Vercel</span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                Next.js
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                TypeScript
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                FastAPI
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                Python
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                Docker
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                GCP
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                Vercel
+              </span>
             </div>
             <div className="flex gap-3 justify-center items-center">
               <Dialog>
@@ -109,86 +123,6 @@ function Projects({ setActiveSection }: setActiveProps) {
         </div>
       </div>
 
-      {/* Baini */}
-      <div
-        className="relative mt-8 h-96 bg-cover bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
-        style={{
-          backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Baini-AHSGlxIvUiO5CQE8d5ED4yosBSLGLz.png')`,
-        }}
-      >
-        <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-          style={{
-            backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Baini-AHSGlxIvUiO5CQE8d5ED4yosBSLGLz.png')`,
-          }}
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.985)_0%,rgba(2,6,23,0.965)_24%,rgba(2,6,23,0.935)_56%,rgba(2,6,23,0.97)_100%)] group-hover:bg-[linear-gradient(180deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.955)_24%,rgba(2,6,23,0.92)_56%,rgba(2,6,23,0.965)_100%)] transition-all duration-500 flex items-center justify-center">
-          <div className="text-left text-slate-300 p-4 md:p-8 max-sm:text-sm max-w-screen-md rounded-md bg-slate-950/55 border border-slate-700/40 shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-[2px]">
-            <h3 className="font-display font-bold text-2xl md:text-4xl mb-4 text-green-400">
-              Baini
-            </h3>
-            <p className="mb-4 leading-relaxed">
-              A web application that enables creators to provide tamper-evident
-              signatures on images thus recording the source and history of an
-              image in its metadata. Creators can also verify images and check
-              for provenance information and signs of tampering on image
-              signatures.
-            </p>
-            <div className="flex flex-wrap gap-1.5 justify-center mb-5">
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">React</span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">TypeScript</span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">Express</span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">Docker</span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">GCP</span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">Firebase</span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">Cloud Firestore</span>
-            </div>
-            <div className="flex gap-3 justify-center items-center">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button size="sm" variant="outline" className={btnClass}>
-                    Preview
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className={modalClass}>
-                  <DialogHeader className="pb-2">
-                    <DialogTitle className="font-display text-xl text-slate-100">
-                      Baini Preview
-                    </DialogTitle>
-                  </DialogHeader>
-                  <video
-                    src="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Videos/Baini%20-%20Google%20Chrome%202024-08-20%2000-56-19-m8c3fIblqgTPcztQnsLC4uTE7njTJZ.mp4"
-                    controls
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
-                    className="w-full h-auto rounded-md border border-slate-800 bg-black"
-                  ></video>
-                </DialogContent>
-              </Dialog>
-              <Button size="sm" variant="outline" className={btnClass} asChild>
-                <a
-                  href="https://baini-images.web.app/"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  Visit
-                </a>
-              </Button>
-              <a
-                href="https://github.com/kodalegit/baini-public"
-                target="_blank"
-                rel="noopener"
-              >
-                <FlatGitHubIcon />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Ujenzi */}
       <div
         className="relative mt-8 h-96 bg-cover bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
@@ -215,11 +149,21 @@ function Projects({ setActiveSection }: setActiveProps) {
               provides an accurate concrete strength prediction.
             </p>
             <div className="flex flex-wrap gap-1.5 justify-center mb-5">
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">React</span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">Django</span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">Scikit-learn</span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">GCP</span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">PostgreSQL</span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                React
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                Django
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                Scikit-learn
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                GCP
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                PostgreSQL
+              </span>
             </div>
             <div className="flex gap-3 justify-center items-center">
               <Dialog>
@@ -267,6 +211,100 @@ function Projects({ setActiveSection }: setActiveProps) {
         </div>
       </div>
 
+      {/* Baini */}
+      <div
+        className="relative mt-8 h-96 bg-cover bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
+        style={{
+          backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Baini-AHSGlxIvUiO5CQE8d5ED4yosBSLGLz.png')`,
+        }}
+      >
+        <div
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          style={{
+            backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Baini-AHSGlxIvUiO5CQE8d5ED4yosBSLGLz.png')`,
+          }}
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.985)_0%,rgba(2,6,23,0.965)_24%,rgba(2,6,23,0.935)_56%,rgba(2,6,23,0.97)_100%)] group-hover:bg-[linear-gradient(180deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.955)_24%,rgba(2,6,23,0.92)_56%,rgba(2,6,23,0.965)_100%)] transition-all duration-500 flex items-center justify-center">
+          <div className="text-left text-slate-300 p-4 md:p-8 max-sm:text-sm max-w-screen-md rounded-md bg-slate-950/55 border border-slate-700/40 shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-[2px]">
+            <h3 className="font-display font-bold text-2xl md:text-4xl mb-4 text-green-400">
+              Baini
+            </h3>
+            <p className="mb-4 leading-relaxed">
+              A web application that enables creators to provide tamper-evident
+              signatures on images thus recording the source and history of an
+              image in its metadata. Creators can also verify images and check
+              for provenance information and signs of tampering on image
+              signatures.
+            </p>
+            <div className="flex flex-wrap gap-1.5 justify-center mb-5">
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                React
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                TypeScript
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                Express
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                Docker
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                GCP
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                Firebase
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                Cloud Firestore
+              </span>
+            </div>
+            <div className="flex gap-3 justify-center items-center">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button size="sm" variant="outline" className={btnClass}>
+                    Preview
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className={modalClass}>
+                  <DialogHeader className="pb-2">
+                    <DialogTitle className="font-display text-xl text-slate-100">
+                      Baini Preview
+                    </DialogTitle>
+                  </DialogHeader>
+                  <video
+                    src="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Videos/Baini%20-%20Google%20Chrome%202024-08-20%2000-56-19-m8c3fIblqgTPcztQnsLC4uTE7njTJZ.mp4"
+                    controls
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-auto rounded-md border border-slate-800 bg-black"
+                  ></video>
+                </DialogContent>
+              </Dialog>
+              <Button size="sm" variant="outline" className={btnClass} asChild>
+                <a
+                  href="https://baini-images.web.app/"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Visit
+                </a>
+              </Button>
+              <a
+                href="https://github.com/kodalegit/baini-public"
+                target="_blank"
+                rel="noopener"
+              >
+                <FlatGitHubIcon />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* reactify-django */}
       <div
         className="relative mt-8 h-96 bg-auto bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
@@ -294,8 +332,12 @@ function Projects({ setActiveSection }: setActiveProps) {
               npm.
             </p>
             <div className="flex flex-wrap gap-1.5 justify-center mb-5">
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">TypeScript</span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">npm</span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                TypeScript
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                npm
+              </span>
             </div>
             <div className="flex justify-center items-center gap-3">
               <a
