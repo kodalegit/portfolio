@@ -59,11 +59,26 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background-color: rgba(74, 222, 128, 0.25);
+  color: #e2e8f0;
+}
+
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+    background-image: radial-gradient(
+      ellipse 80% 50% at 50% -20%,
+      rgba(30, 41, 59, 0.6) 0%,
+      transparent 60%
+    );
+    background-attachment: fixed;
   }
 }

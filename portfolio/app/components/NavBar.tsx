@@ -5,10 +5,10 @@ import LinkedInIcon from "./icons/LinkedInIcon";
 
 function NavBar() {
   return (
-    <nav className="backdrop-blur-sm w-full fixed top-0 z-10">
+    <nav className="backdrop-blur-md w-full fixed top-0 z-10 border-b border-slate-800/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-12">
-          <div className="ml-14 lg:ml-10 flex items-center space-x-4">
+        <div className="flex items-center justify-between h-14">
+          <div className="ml-14 lg:ml-10 flex items-center gap-5">
             <a
               href="https://www.linkedin.com/in/victorkimani77"
               target="_blank"
@@ -23,7 +23,6 @@ function NavBar() {
             >
               <FillGitHubIcon />
             </a>
-
             <a href="mailto:victorkimani77@gmail.com">
               <EmailIcon />
             </a>
@@ -32,7 +31,8 @@ function NavBar() {
             <Button
               asChild
               variant="outline"
-              className="bg-transparent border-green-500 hover:bg-green-500 text-green-500"
+              size="sm"
+              className="bg-slate-950/70 border-slate-700 text-slate-300 text-xs tracking-widest uppercase hover:bg-slate-900/90 hover:border-green-300 hover:text-green-300 transition-all duration-300 backdrop-blur-sm"
             >
               <a
                 target="_blank"

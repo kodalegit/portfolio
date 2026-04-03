@@ -1,7 +1,7 @@
 function LinkedInIcon() {
   return (
     <svg
-      className="size-6 fill-slate-500 hover:fill-green-500"
+      className="size-5 fill-slate-500 hover:fill-slate-200 transition-colors duration-300"
       style={{
         fillRule: "evenodd",
         clipRule: "evenodd",

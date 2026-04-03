@@ -1,7 +1,7 @@
 function EmailIcon() {
   return (
     <svg
-      className="size-7 fill-slate-500 hover:fill-green-500 group-hover:fill-green-500"
+      className="size-5 fill-slate-500 hover:fill-slate-200 group-hover:fill-slate-200 transition-colors duration-300"
       viewBox="0 0 32 32"
       xmlns="http://www.w3.org/2000/svg"
     >
