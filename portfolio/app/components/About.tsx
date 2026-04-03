@@ -25,14 +25,23 @@ function About({ setActiveSection }: setActiveProps) {
         <Separator className="flex-grow ml-3 max-w-96 bg-slate-700" />
       </div>
       <div className="text-slate-400 font-light mt-6 w-full md:w-10/12">
-        I have always loved building things. I began my journey designing and
-        building physical solutions as a civil engineer before discovering my
-        passion for programming. Being able to create good software is a
-        superpower that lifts the boundaries of what is thought to be possible.
-        I am excited to see how far I can push these boundaries and how many
-        more problems I can solve.
+        I've always been drawn to building things.
         <p className="mt-2">
-          I am currently working on{" "}
+          I started out as a civil engineer, working on physical infrastructure
+          and seeing firsthand how systems shape people's everyday lives. Over
+          time, I became increasingly interested in the digital side of
+          problem-solving and transitioned into software engineering, where the
+          ability to build and iterate quickly opened up an entirely new way of
+          thinking.
+        </p>
+        <p className="mt-2">
+          Today, I focus on building AI-powered systems for real-world,
+          high-stakes environments. My work spans agentic workflows, full-stack
+          applications, and tools that help professionals make better decisions
+          with complex data.
+        </p>
+        <p className="mt-2">
+          Building{" "}
           <a
             className="font-bold underline decoration-green-400 underline-offset-4 transition-all hover:underline hover:decoration-green-600 hover:decoration-2"
             href="https://uwazo.com/"
@@ -41,11 +50,13 @@ function About({ setActiveSection }: setActiveProps) {
           >
             Uwazo
           </a>
-          , a platform that enables lawyers and tax professionals to draft
-          AI-backed legal opinions.
+          , an AI-powered tax advisory platform, gave me a deeper appreciation
+          for what it takes to create products people trust and rely on - beyond
+          just the technical side.
         </p>
         <p className="mt-2">
-          I am currently open to interesting opportunities to apply my skills.
+          I'm especially interested in problems where technology,
+          decision-making, and real-world impact intersect.
         </p>
       </div>
     </section>

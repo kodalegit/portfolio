@@ -26,39 +26,50 @@ function Experience({ setActiveSection }: setActiveProps) {
       </div>
       <div className="my-4">
         <h2 className="font-semibold text-xl">
-          <span className="text-green-400">Sofware Engineer</span> @ Islet Group
+          <span className="text-green-400">AI Engineer</span> @ Crafted Systems
+        </h2>
+        <p className="text-slate-400 text-sm mt-1">Dec 2025 - Apr 2026</p>
+        <p className="text-slate-400 mt-3">
+          Designed and deployed agentic AI workflows, RAG systems, and
+          evaluation frameworks for enterprise financial platforms used by banks
+          and SACCOs, with a strong focus on privacy, reliability, and
+          production readiness.
+        </p>
+      </div>
+      <div className="my-4">
+        <h2 className="font-semibold text-xl">
+          <span className="text-green-400">Founder & Lead Engineer</span> @
+          Uwazo
+        </h2>
+        <p className="text-slate-400 text-sm mt-1">2025 - Present</p>
+        <p className="text-slate-400 mt-3">
+          Built an AI-powered tax advisory platform with document ingestion,
+          vector search, and contextual memory, while designing agentic,
+          citation-backed workflows and leading product development end to end.
+        </p>
+      </div>
+      <div className="my-4">
+        <h2 className="font-semibold text-xl">
+          <span className="text-green-400">Software Engineering Consultant</span> @ Islet
+          Group
         </h2>
         <p className="text-slate-400 text-sm mt-1">2024 - Present</p>
         <p className="text-slate-400 mt-3">
-          Designed and developed responsive websites using modern frameworks,
-          optimizing performance and implementing SEO best practices. Built
-          custom plugins to integrate front-end interfaces with backend APIs,
-          collaborating with clients to deliver tailored, high-performing
-          solutions.
+          Developed and launched primary digital platforms for Kenya's largest
+          pharmaceutical association and the Kenya Dental Association, including
+          custom API integrations for certification tracking and events
+          management at scale.
         </p>
       </div>
       <div className="my-4">
         <h2 className="font-semibold text-xl">
-          <span className="text-green-400">Full-Stack Developer </span>@ Boxraft
-          Ltd
-        </h2>
-        <p className="text-slate-400 text-sm mt-1">Oct 2023 - Dec 2023</p>
-        <p className="text-slate-400 mt-3">
-          Built a Minimum Viable Product using Django to showcase integration of
-          generative AI into the existing news website. Delivered the successful
-          prototype and presented it to the company CEO.
-        </p>
-      </div>
-      <div className="my-4">
-        <h2 className="font-semibold text-xl">
-          <span className="text-green-400">Engineer </span>@ Athi Water Works
+          <span className="text-green-400">Engineer</span> @ Athi Water Works
           Agency
         </h2>
-        <p className="text-slate-400 text-sm mt-1">Jul 2022 - Oct 2023</p>
+        <p className="text-slate-400 text-sm mt-1">Jul 2022 - Oct 2024</p>
         <p className="text-slate-400 mt-3">
-          Collaborated with cross-functional teams to gather requirements,
-          design solutions, and deliver high-quality projects within defined
-          timelines
+          Collaborated across teams to define requirements, shape solutions, and
+          deliver infrastructure projects within scope and timeline.
         </p>
       </div>
     </section>

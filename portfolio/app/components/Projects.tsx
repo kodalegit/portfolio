@@ -80,9 +80,7 @@ function Projects({ setActiveSection }: setActiveProps) {
                     <DialogTitle>Project Preview</DialogTitle>
                   </DialogHeader>
                   <video
-                    src="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Videos/Uwazo%20Recording%202025-07-28%20175630.mp4"
-                    controls
-                    autoPlay
+                    src="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Videos/Uwazo%20Project%20Demo.mp4"
                     loop
                     muted
                     preload="none"
@@ -245,7 +243,7 @@ function Projects({ setActiveSection }: setActiveProps) {
                 className="bg-transparent rounded-3xl"
                 asChild
               >
-                <a href="https://ujenzi.tech/" target="_blank" rel="noopener">
+                <a href="https://monolith-935048637315.us-central1.run.app/" target="_blank" rel="noopener">
                   Visit
                 </a>
               </Button>
@@ -284,7 +282,7 @@ function Projects({ setActiveSection }: setActiveProps) {
               <p className="bg-slate-700 px-1 rounded-lg">TypeScript</p>
               <p className="bg-slate-700 px-1 rounded-lg">npm</p>
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center items-center gap-4">
               <a
                 href="https://github.com/kodalegit/reactify-django"
                 target="_blank"
@@ -292,40 +290,20 @@ function Projects({ setActiveSection }: setActiveProps) {
               >
                 <FlatGitHubIcon />
               </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        className="relative h-96 mt-12 bg-auto bg-center rounded-md md:mx-2 lg:mx-20"
-        style={{
-          backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/TictactoeAI-0rkQUQRTPQgbSRewD8LLEt6xIvkinR.png')`,
-        }}
-      >
-        <div className="absolute inset-0 bg-slate-900 bg-opacity-95 flex items-center justify-center">
-          <div className="text-left text-slate-400 p-4 pt-12 md:p-8 max-sm:text-sm max-w-screen-md">
-            <h2 className="font-semibold text-2xl md:text-4xl mb-4 text-green-500">
-              TicTacToe AI
-            </h2>
-            <p className="mb-4">
-              Built an artificial intelligence model that utilizes the minimax
-              algorithm to solve an adversarial search problem and determine the
-              best possible move in Tictactoe. The AI model takes the current
-              board as input and recursively applies the minimax algorithm to
-              determine the most optimal move.
-            </p>
-            <div className="flex flex-wrap gap-2 justify-center mb-4">
-              <p className="bg-slate-700 px-1 rounded-lg">Python</p>
-            </div>
-            <div className="flex justify-center">
-              <a
-                href="https://github.com/kodalegit/tictactoeAI"
-                target="_blank"
-                rel="noopener"
+              <Button
+                size="sm"
+                variant="outline"
+                className="bg-transparent rounded-3xl"
+                asChild
               >
-                <FlatGitHubIcon />
-              </a>
+                <a
+                  href="https://medium.com/@victorkimani77/integrate-react-into-django-seamlessly-with-the-reactify-django-cli-19594ecca1c4"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Article
+                </a>
+              </Button>
             </div>
           </div>
         </div>

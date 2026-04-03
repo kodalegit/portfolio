@@ -6,15 +6,15 @@ function Intro() {
         Victor Kimani<span className="text-green-400">.</span>
       </p>
       <p className="text-xl font-light py-3">
-        <span className="text-green-400 font-bold text-2xl">
-          Full Stack Developer
-        </span>
+        <span className="text-green-400 font-bold text-2xl">Builder | Founder</span>
       </p>
-      <p className="text-slate-400">
-        I am a software engineer specializing in building amazing digital
-        experiences on the web. I have a passion for putting together elegant
-        solutions that are effective and accessible.
-      </p>
+      <div className="text-slate-400 space-y-3 max-w-2xl">
+        <p>I build systems that think, adapt, and solve real problems.</p>
+        <p>
+          My work spans AI agents, full-stack applications, and tools designed
+          for real-world use, not just demos.
+        </p>
+      </div>
     </section>
   );
 }
