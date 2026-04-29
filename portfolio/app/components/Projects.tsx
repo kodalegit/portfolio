@@ -40,7 +40,7 @@ function Projects({ setActiveSection }: setActiveProps) {
 
       {/* Uwazo */}
       <div
-        className="relative mt-8 h-96 bg-cover bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
+        className="relative mt-8 min-h-[38rem] sm:min-h-[33rem] lg:min-h-96 bg-cover bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
         style={{
           backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Uwazo%20Screenshot%202025-07-28%20181837.png')`,
         }}
@@ -51,8 +51,8 @@ function Projects({ setActiveSection }: setActiveProps) {
             backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Uwazo%20Screenshot%202025-07-28%20181837.png')`,
           }}
         />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.985)_0%,rgba(2,6,23,0.965)_24%,rgba(2,6,23,0.935)_56%,rgba(2,6,23,0.97)_100%)] group-hover:bg-[linear-gradient(180deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.955)_24%,rgba(2,6,23,0.92)_56%,rgba(2,6,23,0.965)_100%)] transition-all duration-500 flex items-center justify-center">
-          <div className="text-left text-slate-300 p-4 md:p-8 max-sm:text-sm max-w-screen-md rounded-md bg-slate-950/55 border border-slate-700/40 shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-[2px]">
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.985)_0%,rgba(2,6,23,0.965)_24%,rgba(2,6,23,0.935)_56%,rgba(2,6,23,0.97)_100%)] group-hover:bg-[linear-gradient(180deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.955)_24%,rgba(2,6,23,0.92)_56%,rgba(2,6,23,0.965)_100%)] transition-all duration-500 flex items-center justify-center p-4 sm:p-6">
+          <div className="w-full text-left text-slate-300 p-4 md:p-8 max-sm:text-sm max-w-screen-md rounded-md bg-slate-950/55 border border-slate-700/40 shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-[2px]">
             <h3 className="font-display font-bold text-2xl md:text-4xl mb-4 text-green-400">
               Uwazo
             </h3>
@@ -88,7 +88,7 @@ function Projects({ setActiveSection }: setActiveProps) {
                 Vercel
               </span>
             </div>
-            <div className="flex gap-3 justify-center items-center">
+            <div className="flex flex-wrap gap-3 justify-center items-center">
               <Dialog>
                 <DialogTrigger asChild>
                   <Button size="sm" variant="outline" className={btnClass}>
@@ -123,9 +123,115 @@ function Projects({ setActiveSection }: setActiveProps) {
         </div>
       </div>
 
+      {/* Sentinel */}
+      <div
+        className="relative mt-8 min-h-[44rem] sm:min-h-[36rem] lg:min-h-[30rem] bg-cover bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
+        style={{
+          backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Sentinel%20Screenshot-LVszDV3oqZlAThNAoya28UzKtax7NF')`,
+        }}
+      >
+        <div
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          style={{
+            backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Sentinel%20Screenshot-LVszDV3oqZlAThNAoya28UzKtax7NF')`,
+          }}
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.985)_0%,rgba(2,6,23,0.965)_24%,rgba(2,6,23,0.935)_56%,rgba(2,6,23,0.97)_100%)] group-hover:bg-[linear-gradient(180deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.955)_24%,rgba(2,6,23,0.92)_56%,rgba(2,6,23,0.965)_100%)] transition-all duration-500 flex items-center justify-center p-3 sm:p-6">
+          <div className="w-full text-left text-slate-300 p-3 md:p-8 max-sm:text-sm max-w-screen-md rounded-md bg-slate-950/55 border border-slate-700/40 shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-[2px]">
+            <h3 className="font-display font-bold text-2xl md:text-4xl mb-4 text-green-400">
+              Sentinel
+            </h3>
+            <p className="mb-4 leading-relaxed">
+              Sentinel is an AI-powered procurement integrity platform that
+              detects fraud, collusion, and corruption in Kenyan public
+              procurement. It ingests tender data from PPIP/OCDS and e-GP
+              sources into a hybrid PostgreSQL + Neo4j architecture, building
+              shadow graphs of companies, directors, and officials to surface
+              conflict-of-interest paths, cartel patterns, and shell companies.
+              A hybrid risk engine (60% rule-based + 40% Isolation Forest ML)
+              scores tenders 0-100 with SHAP-attributed anomaly explanations. A
+              LangGraph agent backed by pgvector RAG over Kenyan procurement law
+              streams evidence-grounded case analysis with auditor role-based
+              access controls.
+            </p>
+            <div className="flex flex-wrap gap-1.5 justify-center mb-5">
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                Next.js
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                TypeScript
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                FastAPI
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                Python
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                PostgreSQL
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                Neo4j
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                LangGraph
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                scikit-learn
+              </span>
+              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
+                Docker
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-3 justify-center items-center">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button size="sm" variant="outline" className={btnClass}>
+                    Preview
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className={modalClass}>
+                  <DialogHeader className="pb-2">
+                    <DialogTitle className="font-display text-xl text-slate-100">
+                      Sentinel Preview
+                    </DialogTitle>
+                  </DialogHeader>
+                  <video
+                    src="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Videos/Sentinel%20Project%20Demo"
+                    controls
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-auto rounded-md border border-slate-800 bg-black"
+                  ></video>
+                </DialogContent>
+              </Dialog>
+              <Button size="sm" variant="outline" className={btnClass} asChild>
+                <a
+                  href="https://humble-ambition-production.up.railway.app/"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Visit
+                </a>
+              </Button>
+              <a
+                href="https://github.com/kodalegit/sentinel"
+                target="_blank"
+                rel="noopener"
+              >
+                <FlatGitHubIcon />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Ujenzi */}
       <div
-        className="relative mt-8 h-96 bg-cover bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
+        className="relative mt-8 min-h-[34rem] sm:min-h-[30rem] lg:min-h-96 bg-cover bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
         style={{
           backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Ujenzi-47KC9J9e9Jy3R0Hw1jzkY0ffDgXV9E.png')`,
         }}
@@ -136,8 +242,8 @@ function Projects({ setActiveSection }: setActiveProps) {
             backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Ujenzi-47KC9J9e9Jy3R0Hw1jzkY0ffDgXV9E.png')`,
           }}
         />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.985)_0%,rgba(2,6,23,0.965)_24%,rgba(2,6,23,0.935)_56%,rgba(2,6,23,0.97)_100%)] group-hover:bg-[linear-gradient(180deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.955)_24%,rgba(2,6,23,0.92)_56%,rgba(2,6,23,0.965)_100%)] transition-all duration-500 flex items-center justify-center">
-          <div className="text-left text-slate-300 p-4 md:p-8 max-sm:text-sm max-w-screen-md rounded-md bg-slate-950/55 border border-slate-700/40 shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-[2px]">
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.985)_0%,rgba(2,6,23,0.965)_24%,rgba(2,6,23,0.935)_56%,rgba(2,6,23,0.97)_100%)] group-hover:bg-[linear-gradient(180deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.955)_24%,rgba(2,6,23,0.92)_56%,rgba(2,6,23,0.965)_100%)] transition-all duration-500 flex items-center justify-center p-4 sm:p-6">
+          <div className="w-full text-left text-slate-300 p-4 md:p-8 max-sm:text-sm max-w-screen-md rounded-md bg-slate-950/55 border border-slate-700/40 shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-[2px]">
             <h3 className="font-display font-bold text-2xl md:text-4xl mb-4 text-green-400">
               Ujenzi
             </h3>
@@ -165,7 +271,7 @@ function Projects({ setActiveSection }: setActiveProps) {
                 PostgreSQL
               </span>
             </div>
-            <div className="flex gap-3 justify-center items-center">
+            <div className="flex flex-wrap gap-3 justify-center items-center">
               <Dialog>
                 <DialogTrigger asChild>
                   <Button size="sm" variant="outline" className={btnClass}>
@@ -213,7 +319,7 @@ function Projects({ setActiveSection }: setActiveProps) {
 
       {/* Baini */}
       <div
-        className="relative mt-8 h-96 bg-cover bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
+        className="relative mt-8 min-h-[34rem] sm:min-h-[30rem] lg:min-h-96 bg-cover bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
         style={{
           backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Baini-AHSGlxIvUiO5CQE8d5ED4yosBSLGLz.png')`,
         }}
@@ -224,8 +330,8 @@ function Projects({ setActiveSection }: setActiveProps) {
             backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Baini-AHSGlxIvUiO5CQE8d5ED4yosBSLGLz.png')`,
           }}
         />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.985)_0%,rgba(2,6,23,0.965)_24%,rgba(2,6,23,0.935)_56%,rgba(2,6,23,0.97)_100%)] group-hover:bg-[linear-gradient(180deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.955)_24%,rgba(2,6,23,0.92)_56%,rgba(2,6,23,0.965)_100%)] transition-all duration-500 flex items-center justify-center">
-          <div className="text-left text-slate-300 p-4 md:p-8 max-sm:text-sm max-w-screen-md rounded-md bg-slate-950/55 border border-slate-700/40 shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-[2px]">
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.985)_0%,rgba(2,6,23,0.965)_24%,rgba(2,6,23,0.935)_56%,rgba(2,6,23,0.97)_100%)] group-hover:bg-[linear-gradient(180deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.955)_24%,rgba(2,6,23,0.92)_56%,rgba(2,6,23,0.965)_100%)] transition-all duration-500 flex items-center justify-center p-4 sm:p-6">
+          <div className="w-full text-left text-slate-300 p-4 md:p-8 max-sm:text-sm max-w-screen-md rounded-md bg-slate-950/55 border border-slate-700/40 shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-[2px]">
             <h3 className="font-display font-bold text-2xl md:text-4xl mb-4 text-green-400">
               Baini
             </h3>
@@ -259,7 +365,7 @@ function Projects({ setActiveSection }: setActiveProps) {
                 Cloud Firestore
               </span>
             </div>
-            <div className="flex gap-3 justify-center items-center">
+            <div className="flex flex-wrap gap-3 justify-center items-center">
               <Dialog>
                 <DialogTrigger asChild>
                   <Button size="sm" variant="outline" className={btnClass}>
@@ -307,7 +413,7 @@ function Projects({ setActiveSection }: setActiveProps) {
 
       {/* reactify-django */}
       <div
-        className="relative mt-8 h-96 bg-auto bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
+        className="relative mt-8 min-h-[30rem] sm:min-h-[28rem] lg:min-h-96 bg-auto bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
         style={{
           backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/reactify-django-JmAuDeCPzaNIIPvgALaSByDjAuujS0.png')`,
         }}
@@ -318,8 +424,8 @@ function Projects({ setActiveSection }: setActiveProps) {
             backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/reactify-django-JmAuDeCPzaNIIPvgALaSByDjAuujS0.png')`,
           }}
         />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.985)_0%,rgba(2,6,23,0.965)_24%,rgba(2,6,23,0.935)_56%,rgba(2,6,23,0.97)_100%)] group-hover:bg-[linear-gradient(180deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.955)_24%,rgba(2,6,23,0.92)_56%,rgba(2,6,23,0.965)_100%)] transition-all duration-500 flex items-center justify-center">
-          <div className="text-left text-slate-300 p-4 md:p-8 max-sm:text-sm max-w-screen-md rounded-md bg-slate-950/55 border border-slate-700/40 shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-[2px]">
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.985)_0%,rgba(2,6,23,0.965)_24%,rgba(2,6,23,0.935)_56%,rgba(2,6,23,0.97)_100%)] group-hover:bg-[linear-gradient(180deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.955)_24%,rgba(2,6,23,0.92)_56%,rgba(2,6,23,0.965)_100%)] transition-all duration-500 flex items-center justify-center p-4 sm:p-6">
+          <div className="w-full text-left text-slate-300 p-4 md:p-8 max-sm:text-sm max-w-screen-md rounded-md bg-slate-950/55 border border-slate-700/40 shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-[2px]">
             <h3 className="font-display font-bold text-2xl md:text-4xl mb-4 text-green-400">
               reactify-django CLI
             </h3>
@@ -339,7 +445,7 @@ function Projects({ setActiveSection }: setActiveProps) {
                 npm
               </span>
             </div>
-            <div className="flex justify-center items-center gap-3">
+            <div className="flex flex-wrap justify-center items-center gap-3">
               <a
                 href="https://github.com/kodalegit/reactify-django"
                 target="_blank"
