@@ -208,7 +208,7 @@ function Projects({ setActiveSection }: setActiveProps) {
                   ></video>
                 </DialogContent>
               </Dialog>
-              <Button size="sm" variant="outline" className={btnClass} asChild>
+              {/* <Button size="sm" variant="outline" className={btnClass} asChild>
                 <a
                   href="https://humble-ambition-production.up.railway.app/"
                   target="_blank"
@@ -216,7 +216,7 @@ function Projects({ setActiveSection }: setActiveProps) {
                 >
                   Visit
                 </a>
-              </Button>
+              </Button> */}
               <a
                 href="https://github.com/kodalegit/sentinel"
                 target="_blank"
