@@ -47,23 +47,26 @@ function Experience({ setActiveSection }: setActiveProps) {
             2025 — Present
           </p>
           <p className="text-slate-400 mt-3 leading-relaxed">
-            Built an AI-powered tax advisory platform with document ingestion,
-            vector search, and contextual memory, while designing agentic,
-            citation-backed workflows and leading product development end to end.
+            Built an AI research assistant combining retrieval-augmented
+            generation (RAG), web search, and contextual memory to answer legal
+            and tax questions with citations. Led product development from
+            design through deployment.
           </p>
         </div>
         <div className="relative">
           <div className="absolute -left-[37px] top-1.5 w-2 h-2 rounded-full bg-green-400" />
           <h3 className="font-semibold text-lg">
-            <span className="text-green-400">Software Engineering Consultant</span>{" "}
+            <span className="text-green-400">
+              Software Engineering Consultant
+            </span>{" "}
             <span className="text-slate-500">@ Islet Group</span>
           </h3>
           <p className="text-slate-500 text-xs tracking-wider uppercase mt-1">
             2024 — Present
           </p>
           <p className="text-slate-400 mt-3 leading-relaxed">
-            Developed and launched primary digital platforms for Kenya&apos;s largest
-            pharmaceutical association and the Kenya Dental Association,
+            Developed and launched primary digital platforms for Kenya&apos;s
+            largest pharmaceutical association and the Kenya Dental Association,
             including custom API integrations for certification tracking and
             events management at scale.
           </p>

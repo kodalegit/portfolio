@@ -13,8 +13,9 @@ function Intro() {
       <div className="text-slate-400 space-y-3 max-w-xl leading-relaxed">
         <p>I build systems that think, adapt, and solve real problems.</p>
         <p>
-          My work spans AI agents, full-stack applications, and tools designed
-          for real-world use, not just demos.
+          My work spans AI agents, machine learning, and full-stack
+          applications, with a focus on building reliable systems people can use
+          and trust.
         </p>
       </div>
     </section>

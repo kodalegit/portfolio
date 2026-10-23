@@ -1,470 +1,309 @@
+import Image from "next/image";
 import { useRef, useEffect } from "react";
+import { ArrowUpRight, BookOpen, Github, Play } from "lucide-react";
 import useInViewPort from "../hooks/useActiveSection";
 import { setActiveProps } from "../types/types";
-import { Button } from "./ui/button";
-import FlatGitHubIcon from "./icons/FlatGitHubIcon";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/app/components/ui/dialog";
 
-const btnClass =
-  "bg-slate-950/70 border-slate-700 text-slate-300 text-xs tracking-wider uppercase hover:bg-slate-900/90 hover:border-green-300 hover:text-green-300 transition-all duration-300 rounded-full backdrop-blur-sm";
+const blobBase = "https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com";
 
-const modalClass =
-  "bg-slate-950/95 border-slate-800 shadow-2xl sm:max-w-3xl p-3 sm:p-4";
+const actionClass =
+  "inline-flex min-h-10 items-center justify-center gap-2 rounded-md text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950";
+
+interface Project {
+  name: string;
+  category: string;
+  description: string[];
+  technologies: string[];
+  image: string;
+  imageAlt: string;
+  video?: string;
+  visit?: string;
+  source?: string;
+  article?: string;
+}
+
+const projects: Project[] = [
+  {
+    name: "Pelmio",
+    category: "AI · Interactive learning",
+    description: [
+      "Turns lesson plans into interactive learning missions. AI drafts activities from teachers’ own materials, and teachers refine, preview, and approve each mission before assigning it.",
+      "Learners repair circuits, run simulations, weigh evidence, and solve maths problems. Their predictions, attempts, and explanations give teachers a view into how they think.",
+    ],
+    technologies: ["Next.js", "FastAPI", "Docker", "PostgreSQL"],
+    image: `${blobBase}/Pelmio%20Screenshot-2U5ADr0YVgWOKtXv3n5gwpSLjFJpEI`,
+    imageAlt:
+      "Pelmio showing how lesson notes become an interactive learning mission",
+    visit: "https://www.pelmio.app/",
+  },
+  {
+    name: "Uwazo",
+    category: "AI agents · Legal research",
+    description: [
+      "An AI research assistant for lawyers and tax professionals. Combines retrieval-augmented generation (RAG), web search, and contextual memory to answer questions with supporting legal sources.",
+      "Document uploads and separate workspaces keep research tailored to each matter, from tax law and case law to business regulations.",
+    ],
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "FastAPI",
+      "Python",
+      "Docker",
+      "GCP",
+      "Vercel",
+    ],
+    image: `${blobBase}/Uwazo%20Screenshot-GXxqFLtTg3BqcmUpVxbZpYBG8d3AMp`,
+    imageAlt: "Uwazo legal, tax, and finance AI assistant homepage",
+    video: `${blobBase}/Videos/Uwazo%20Project%20Demo.mp4`,
+    visit: "https://www.uwazo.com/",
+  },
+  {
+    name: "Sentinel",
+    category: "Machine learning · Procurement",
+    description: [
+      "Helps auditors investigate possible fraud and conflicts of interest in Kenyan public procurement. Machine learning and relationship graphs flag unusual tenders and connections between companies, directors, and officials.",
+      "Explained risk scores support investigation, while a LangGraph agent grounds case analysis in evidence and Kenyan procurement law.",
+    ],
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "FastAPI",
+      "Python",
+      "PostgreSQL",
+      "Neo4j",
+      "LangGraph",
+      "scikit-learn",
+      "Docker",
+    ],
+    image: `${blobBase}/Sentinel%20Screenshot-LVszDV3oqZlAThNAoya28UzKtax7NF`,
+    imageAlt:
+      "Sentinel dashboard with procurement risk scores and flagged tenders",
+    video: `${blobBase}/Videos/Sentinel%20Project%20Demo`,
+    source: "https://github.com/kodalegit/sentinel",
+  },
+  {
+    name: "Ujenzi",
+    category: "Machine learning · Engineering",
+    description: [
+      "Uses machine learning to estimate concrete strength from mix proportions. Engineers and technicians enter their mix parameters and get an immediate prediction to support planning ahead of laboratory testing.",
+      "Brings a trained prediction model into a practical web application for exploring concrete mix designs.",
+    ],
+    technologies: ["React", "Django", "scikit-learn", "GCP", "PostgreSQL"],
+    image: `${blobBase}/Ujenzi-47KC9J9e9Jy3R0Hw1jzkY0ffDgXV9E.png`,
+    imageAlt: "Ujenzi concrete mix design and strength prediction application",
+    video: `${blobBase}/Ujenzi%20-%20Trim%20-%20Google%20Chrome%202024-07-30%2023-52-24-qgSiO2dFedgcvWLkPDGWEkFq1HQQpA.mp4`,
+    visit: "https://monolith-935048637315.us-central1.run.app/",
+    source: "https://github.com/kodalegit/mlvalidation",
+  },
+  {
+    name: "Baini",
+    category: "Content authenticity",
+    description: [
+      "Helps creators sign images with tamper-evident credentials, recording their source and history in the image metadata.",
+      "Users can verify signatures, inspect provenance information, and check for signs that an image has been altered.",
+    ],
+    technologies: [
+      "React",
+      "TypeScript",
+      "Express",
+      "Docker",
+      "GCP",
+      "Firebase",
+      "Cloud Firestore",
+    ],
+    image: `${blobBase}/Baini-AHSGlxIvUiO5CQE8d5ED4yosBSLGLz.png`,
+    imageAlt: "Baini image signing and provenance verification interface",
+    video: `${blobBase}/Videos/Baini%20-%20Google%20Chrome%202024-08-20%2000-56-19-m8c3fIblqgTPcztQnsLC4uTE7njTJZ.mp4`,
+    visit: "https://baini-images.web.app/",
+    source: "https://github.com/kodalegit/baini-public",
+  },
+  {
+    name: "reactify-django CLI",
+    category: "Developer tooling · Open source",
+    description: [
+      "A command-line tool that sets up React inside Django with Webpack already configured. Add React to an existing project or scaffold a new one from scratch.",
+      "Includes options for TypeScript and Tailwind CSS, and is published on npm.",
+    ],
+    technologies: ["TypeScript", "npm"],
+    image: `${blobBase}/reactify-django-JmAuDeCPzaNIIPvgALaSByDjAuujS0.png`,
+    imageAlt: "reactify-django CLI repository and setup documentation",
+    source: "https://github.com/kodalegit/reactify-django",
+    article:
+      "https://medium.com/@victorkimani77/integrate-react-into-django-seamlessly-with-the-reactify-django-cli-19594ecca1c4",
+  },
+];
+
+function ProjectCard({ project, index }: { project: Project; index: number }) {
+  return (
+    <article
+      aria-labelledby={`project-${index}`}
+      className="group flex min-w-0 flex-col overflow-hidden rounded-xl border border-slate-800 bg-slate-900/30 transition-colors duration-300 hover:border-slate-600"
+    >
+      <div className="border-b border-slate-800 bg-slate-900/70 p-4 sm:p-6">
+        <div className="overflow-hidden rounded-md border border-slate-700/70 shadow-[0_12px_32px_rgba(0,0,0,0.25)]">
+          <div
+            aria-hidden="true"
+            className="flex h-7 items-center gap-1.5 border-b border-slate-700/60 bg-slate-950 px-3"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-slate-600" />
+            <span className="h-1.5 w-1.5 rounded-full bg-slate-600" />
+            <span className="h-1.5 w-1.5 rounded-full bg-slate-600" />
+          </div>
+          <div className="relative aspect-[16/9] overflow-hidden bg-slate-900">
+            <Image
+              src={project.image}
+              alt={project.imageAlt}
+              fill
+              sizes="(min-width: 1216px) 488px, (min-width: 1024px) calc((100vw - 200px) / 2), calc(100vw - 160px)"
+              className="object-cover object-top transition-transform duration-500 motion-safe:group-hover:scale-[1.025]"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-1 flex-col p-5 sm:p-7">
+        <div className="mb-4 flex items-start justify-between gap-3">
+          <p className="text-[10px] font-medium uppercase leading-relaxed tracking-[0.16em] text-green-400">
+            {project.category}
+          </p>
+          <span aria-hidden="true" className="font-mono text-xs text-slate-500">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+        </div>
+        <h3
+          id={`project-${index}`}
+          className="font-display text-2xl font-bold tracking-tight text-slate-100 sm:text-3xl"
+        >
+          {project.name}
+        </h3>
+        <div className="mb-6 mt-4 space-y-3 text-sm leading-7 text-slate-400">
+          {project.description.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+        <ul
+          aria-label={`${project.name} technologies`}
+          className="mb-6 mt-auto flex flex-wrap gap-2"
+        >
+          {project.technologies.map((technology) => (
+            <li
+              key={technology}
+              className="rounded-md border border-slate-700/60 bg-slate-800/40 px-2 py-1 font-mono text-[10px] leading-4 text-slate-300"
+            >
+              {technology}
+            </li>
+          ))}
+        </ul>
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-slate-800 pt-4">
+          {project.visit && (
+            <a
+              href={project.visit}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Visit ${project.name}`}
+              className={`${actionClass} text-green-400 hover:text-green-200`}
+            >
+              Visit <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+            </a>
+          )}
+          {project.video && (
+            <Dialog>
+              <DialogTrigger asChild>
+                <button
+                  type="button"
+                  aria-label={`Preview ${project.name}`}
+                  className={`${actionClass} text-slate-300 hover:text-white`}
+                >
+                  <Play aria-hidden="true" className="h-3.5 w-3.5" /> Preview
+                </button>
+              </DialogTrigger>
+              <DialogContent className="max-h-[90dvh] overflow-y-auto border-slate-700 bg-slate-950 p-4 shadow-2xl sm:max-w-3xl sm:p-6">
+                <DialogHeader>
+                  <DialogTitle className="font-display text-xl text-slate-100">
+                    {project.name} Preview
+                  </DialogTitle>
+                  <DialogDescription className="text-slate-400">
+                    A walkthrough of {project.name} in action.
+                  </DialogDescription>
+                </DialogHeader>
+                <video
+                  src={project.video}
+                  controls
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  className="max-h-[65dvh] w-full rounded-md border border-slate-800 bg-black"
+                />
+              </DialogContent>
+            </Dialog>
+          )}
+          {project.source && (
+            <a
+              href={project.source}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`View ${project.name} source on GitHub`}
+              className={`${actionClass} text-slate-300 hover:text-white`}
+            >
+              <Github aria-hidden="true" className="h-4 w-4" /> Source
+            </a>
+          )}
+          {project.article && (
+            <a
+              href={project.article}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Read the ${project.name} article`}
+              className={`${actionClass} text-slate-300 hover:text-white`}
+            >
+              <BookOpen aria-hidden="true" className="h-4 w-4" /> Article
+            </a>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}
 
 function Projects({ setActiveSection }: setActiveProps) {
   const targetRef = useRef<HTMLDivElement>(null);
-  const inViewport = useInViewPort(targetRef, { threshold: 0.3 });
+  const inViewport = useInViewPort(targetRef, {
+    threshold: 0,
+    rootMargin: "-15% 0px -15% 0px",
+  });
+
   useEffect(() => {
-    if (inViewport) {
-      setActiveSection("projects");
-    }
+    if (inViewport) setActiveSection("projects");
   }, [inViewport, setActiveSection]);
 
   return (
     <section
       ref={targetRef}
       id="projects"
-      className="w-full p-4 pt-10 md:p-8 min-h-screen"
+      className="w-full max-w-6xl scroll-mt-20 px-6 py-16 sm:px-8 lg:px-10"
     >
-      <div className="flex items-center justify-end max-w-4xl mb-10">
-        <h2 className="font-display font-bold text-3xl md:text-5xl pr-2 tracking-tight">
+      <div className="mb-10 flex flex-wrap items-end justify-between gap-x-8 gap-y-4 border-b border-slate-800 pb-8">
+        <h2 className="font-display text-3xl font-bold tracking-tight md:text-5xl">
           Projects<span className="text-green-400">.</span>
         </h2>
+        <p className="max-w-sm text-sm leading-6 text-slate-400">
+          AI systems, useful applications, and tools I&apos;ve built along the
+          way.
+        </p>
       </div>
-
-      {/* Uwazo */}
-      <div
-        className="relative mt-8 min-h-[38rem] sm:min-h-[33rem] lg:min-h-96 bg-cover bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
-        style={{
-          backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Uwazo%20Screenshot%202025-07-28%20181837.png')`,
-        }}
-      >
-        <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-          style={{
-            backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Uwazo%20Screenshot%202025-07-28%20181837.png')`,
-          }}
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.985)_0%,rgba(2,6,23,0.965)_24%,rgba(2,6,23,0.935)_56%,rgba(2,6,23,0.97)_100%)] group-hover:bg-[linear-gradient(180deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.955)_24%,rgba(2,6,23,0.92)_56%,rgba(2,6,23,0.965)_100%)] transition-all duration-500 flex items-center justify-center p-4 sm:p-6">
-          <div className="w-full text-left text-slate-300 p-4 md:p-8 max-sm:text-sm max-w-screen-md rounded-md bg-slate-950/55 border border-slate-700/40 shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-[2px]">
-            <h3 className="font-display font-bold text-2xl md:text-4xl mb-4 text-green-400">
-              Uwazo
-            </h3>
-            <p className="mb-4 leading-relaxed">
-              Uwazo is an AI-powered legal assistant for lawyers and tax
-              professionals. It uses an agentic workflow combining
-              Retrieval-Augmented Generation (RAG) and web search to answer
-              complex queries grounded in tax law, case law, and business
-              regulations. Users can upload documents for context-aware
-              responses, work across multiple isolated workspaces, and benefit
-              from personalized outputs through memory-based user profiling.
-            </p>
-            <div className="flex flex-wrap gap-1.5 justify-center mb-5">
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                Next.js
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                TypeScript
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                FastAPI
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                Python
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                Docker
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                GCP
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                Vercel
-              </span>
-            </div>
-            <div className="flex flex-wrap gap-3 justify-center items-center">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button size="sm" variant="outline" className={btnClass}>
-                    Preview
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className={modalClass}>
-                  <DialogHeader className="pb-2">
-                    <DialogTitle className="font-display text-xl text-slate-100">
-                      Uwazo Preview
-                    </DialogTitle>
-                  </DialogHeader>
-                  <video
-                    src="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Videos/Uwazo%20Project%20Demo.mp4"
-                    controls
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
-                    className="w-full h-auto rounded-md border border-slate-800 bg-black"
-                  ></video>
-                </DialogContent>
-              </Dialog>
-              <Button size="sm" variant="outline" className={btnClass} asChild>
-                <a href="https://www.uwazo.com/" target="_blank" rel="noopener">
-                  Visit
-                </a>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Sentinel */}
-      <div
-        className="relative mt-8 min-h-[44rem] sm:min-h-[36rem] lg:min-h-[30rem] bg-cover bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
-        style={{
-          backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Sentinel%20Screenshot-LVszDV3oqZlAThNAoya28UzKtax7NF')`,
-        }}
-      >
-        <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-          style={{
-            backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Sentinel%20Screenshot-LVszDV3oqZlAThNAoya28UzKtax7NF')`,
-          }}
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.985)_0%,rgba(2,6,23,0.965)_24%,rgba(2,6,23,0.935)_56%,rgba(2,6,23,0.97)_100%)] group-hover:bg-[linear-gradient(180deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.955)_24%,rgba(2,6,23,0.92)_56%,rgba(2,6,23,0.965)_100%)] transition-all duration-500 flex items-center justify-center p-3 sm:p-6">
-          <div className="w-full text-left text-slate-300 p-3 md:p-8 max-sm:text-sm max-w-screen-md rounded-md bg-slate-950/55 border border-slate-700/40 shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-[2px]">
-            <h3 className="font-display font-bold text-2xl md:text-4xl mb-4 text-green-400">
-              Sentinel
-            </h3>
-            <p className="mb-4 leading-relaxed">
-              Sentinel is an AI-powered procurement integrity platform that
-              detects fraud, collusion, and corruption in Kenyan public
-              procurement. It ingests tender data from PPIP/OCDS and e-GP
-              sources into a hybrid PostgreSQL + Neo4j architecture, building
-              shadow graphs of companies, directors, and officials to surface
-              conflict-of-interest paths, cartel patterns, and shell companies.
-              A hybrid risk engine (60% rule-based + 40% Isolation Forest ML)
-              scores tenders 0-100 with SHAP-attributed anomaly explanations. A
-              LangGraph agent backed by pgvector RAG over Kenyan procurement law
-              streams evidence-grounded case analysis with auditor role-based
-              access controls.
-            </p>
-            <div className="flex flex-wrap gap-1.5 justify-center mb-5">
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                Next.js
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                TypeScript
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                FastAPI
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                Python
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                PostgreSQL
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                Neo4j
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                LangGraph
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                scikit-learn
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                Docker
-              </span>
-            </div>
-            <div className="flex flex-wrap gap-3 justify-center items-center">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button size="sm" variant="outline" className={btnClass}>
-                    Preview
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className={modalClass}>
-                  <DialogHeader className="pb-2">
-                    <DialogTitle className="font-display text-xl text-slate-100">
-                      Sentinel Preview
-                    </DialogTitle>
-                  </DialogHeader>
-                  <video
-                    src="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Videos/Sentinel%20Project%20Demo"
-                    controls
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
-                    className="w-full h-auto rounded-md border border-slate-800 bg-black"
-                  ></video>
-                </DialogContent>
-              </Dialog>
-              {/* <Button size="sm" variant="outline" className={btnClass} asChild>
-                <a
-                  href="https://humble-ambition-production.up.railway.app/"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  Visit
-                </a>
-              </Button> */}
-              <a
-                href="https://github.com/kodalegit/sentinel"
-                target="_blank"
-                rel="noopener"
-              >
-                <FlatGitHubIcon />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Ujenzi */}
-      <div
-        className="relative mt-8 min-h-[34rem] sm:min-h-[30rem] lg:min-h-96 bg-cover bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
-        style={{
-          backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Ujenzi-47KC9J9e9Jy3R0Hw1jzkY0ffDgXV9E.png')`,
-        }}
-      >
-        <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-          style={{
-            backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Ujenzi-47KC9J9e9Jy3R0Hw1jzkY0ffDgXV9E.png')`,
-          }}
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.985)_0%,rgba(2,6,23,0.965)_24%,rgba(2,6,23,0.935)_56%,rgba(2,6,23,0.97)_100%)] group-hover:bg-[linear-gradient(180deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.955)_24%,rgba(2,6,23,0.92)_56%,rgba(2,6,23,0.965)_100%)] transition-all duration-500 flex items-center justify-center p-4 sm:p-6">
-          <div className="w-full text-left text-slate-300 p-4 md:p-8 max-sm:text-sm max-w-screen-md rounded-md bg-slate-950/55 border border-slate-700/40 shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-[2px]">
-            <h3 className="font-display font-bold text-2xl md:text-4xl mb-4 text-green-400">
-              Ujenzi
-            </h3>
-            <p className="mb-4 leading-relaxed">
-              An AI-powered web platform for engineers and technicians to
-              perform accurate concrete strength predictions without having to
-              wait for laboratory tests. Users provide concrete mix parameters
-              that are ran through a machine learning model which instantly
-              provides an accurate concrete strength prediction.
-            </p>
-            <div className="flex flex-wrap gap-1.5 justify-center mb-5">
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                React
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                Django
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                Scikit-learn
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                GCP
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                PostgreSQL
-              </span>
-            </div>
-            <div className="flex flex-wrap gap-3 justify-center items-center">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button size="sm" variant="outline" className={btnClass}>
-                    Preview
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className={modalClass}>
-                  <DialogHeader className="pb-2">
-                    <DialogTitle className="font-display text-xl text-slate-100">
-                      Ujenzi Preview
-                    </DialogTitle>
-                  </DialogHeader>
-                  <video
-                    src="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Ujenzi%20-%20Trim%20-%20Google%20Chrome%202024-07-30%2023-52-24-qgSiO2dFedgcvWLkPDGWEkFq1HQQpA.mp4"
-                    controls
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
-                    className="w-full h-auto rounded-md border border-slate-800 bg-black"
-                  ></video>
-                </DialogContent>
-              </Dialog>
-              <Button size="sm" variant="outline" className={btnClass} asChild>
-                <a
-                  href="https://monolith-935048637315.us-central1.run.app/"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  Visit
-                </a>
-              </Button>
-              <a
-                href="https://github.com/kodalegit/mlvalidation"
-                target="_blank"
-                rel="noopener"
-              >
-                <FlatGitHubIcon />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Baini */}
-      <div
-        className="relative mt-8 min-h-[34rem] sm:min-h-[30rem] lg:min-h-96 bg-cover bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
-        style={{
-          backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Baini-AHSGlxIvUiO5CQE8d5ED4yosBSLGLz.png')`,
-        }}
-      >
-        <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-          style={{
-            backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Baini-AHSGlxIvUiO5CQE8d5ED4yosBSLGLz.png')`,
-          }}
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.985)_0%,rgba(2,6,23,0.965)_24%,rgba(2,6,23,0.935)_56%,rgba(2,6,23,0.97)_100%)] group-hover:bg-[linear-gradient(180deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.955)_24%,rgba(2,6,23,0.92)_56%,rgba(2,6,23,0.965)_100%)] transition-all duration-500 flex items-center justify-center p-4 sm:p-6">
-          <div className="w-full text-left text-slate-300 p-4 md:p-8 max-sm:text-sm max-w-screen-md rounded-md bg-slate-950/55 border border-slate-700/40 shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-[2px]">
-            <h3 className="font-display font-bold text-2xl md:text-4xl mb-4 text-green-400">
-              Baini
-            </h3>
-            <p className="mb-4 leading-relaxed">
-              A web application that enables creators to provide tamper-evident
-              signatures on images thus recording the source and history of an
-              image in its metadata. Creators can also verify images and check
-              for provenance information and signs of tampering on image
-              signatures.
-            </p>
-            <div className="flex flex-wrap gap-1.5 justify-center mb-5">
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                React
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                TypeScript
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                Express
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                Docker
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                GCP
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                Firebase
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                Cloud Firestore
-              </span>
-            </div>
-            <div className="flex flex-wrap gap-3 justify-center items-center">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button size="sm" variant="outline" className={btnClass}>
-                    Preview
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className={modalClass}>
-                  <DialogHeader className="pb-2">
-                    <DialogTitle className="font-display text-xl text-slate-100">
-                      Baini Preview
-                    </DialogTitle>
-                  </DialogHeader>
-                  <video
-                    src="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Videos/Baini%20-%20Google%20Chrome%202024-08-20%2000-56-19-m8c3fIblqgTPcztQnsLC4uTE7njTJZ.mp4"
-                    controls
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
-                    className="w-full h-auto rounded-md border border-slate-800 bg-black"
-                  ></video>
-                </DialogContent>
-              </Dialog>
-              <Button size="sm" variant="outline" className={btnClass} asChild>
-                <a
-                  href="https://baini-images.web.app/"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  Visit
-                </a>
-              </Button>
-              <a
-                href="https://github.com/kodalegit/baini-public"
-                target="_blank"
-                rel="noopener"
-              >
-                <FlatGitHubIcon />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* reactify-django */}
-      <div
-        className="relative mt-8 min-h-[30rem] sm:min-h-[28rem] lg:min-h-96 bg-auto bg-center rounded-lg overflow-hidden border border-slate-800/50 md:mx-2 lg:mx-20 group"
-        style={{
-          backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/reactify-django-JmAuDeCPzaNIIPvgALaSByDjAuujS0.png')`,
-        }}
-      >
-        <div
-          className="absolute inset-0 bg-auto bg-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-          style={{
-            backgroundImage: `url('https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/reactify-django-JmAuDeCPzaNIIPvgALaSByDjAuujS0.png')`,
-          }}
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.985)_0%,rgba(2,6,23,0.965)_24%,rgba(2,6,23,0.935)_56%,rgba(2,6,23,0.97)_100%)] group-hover:bg-[linear-gradient(180deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.955)_24%,rgba(2,6,23,0.92)_56%,rgba(2,6,23,0.965)_100%)] transition-all duration-500 flex items-center justify-center p-4 sm:p-6">
-          <div className="w-full text-left text-slate-300 p-4 md:p-8 max-sm:text-sm max-w-screen-md rounded-md bg-slate-950/55 border border-slate-700/40 shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-[2px]">
-            <h3 className="font-display font-bold text-2xl md:text-4xl mb-4 text-green-400">
-              reactify-django CLI
-            </h3>
-            <p className="mb-4 leading-relaxed">
-              A CLI tool that automatically configures React within a Django
-              project with built-in Webpack support. Users can either integrate
-              React into an existing Django project or scaffold a new Django
-              project with React from scratch. The CLI also offers options for
-              TypeScript support and Tailwind CSS. The package is published on
-              npm.
-            </p>
-            <div className="flex flex-wrap gap-1.5 justify-center mb-5">
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                TypeScript
-              </span>
-              <span className="bg-slate-800/80 text-slate-400 text-xs tracking-wide px-2.5 py-0.5 rounded-full">
-                npm
-              </span>
-            </div>
-            <div className="flex flex-wrap justify-center items-center gap-3">
-              <a
-                href="https://github.com/kodalegit/reactify-django"
-                target="_blank"
-                rel="noopener"
-              >
-                <FlatGitHubIcon />
-              </a>
-              <Button size="sm" variant="outline" className={btnClass} asChild>
-                <a
-                  href="https://medium.com/@victorkimani77/integrate-react-into-django-seamlessly-with-the-reactify-django-cli-19594ecca1c4"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  Article
-                </a>
-              </Button>
-            </div>
-          </div>
-        </div>
+      <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
+        {projects.map((project, index) => (
+          <ProjectCard key={project.name} project={project} index={index} />
+        ))}
       </div>
     </section>
   );

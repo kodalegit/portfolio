@@ -36,7 +36,7 @@ function NavBar() {
             >
               <a
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 href="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Resume.pdf"
               >
                 Resume
