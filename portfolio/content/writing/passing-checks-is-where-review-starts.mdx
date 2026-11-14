@@ -1,0 +1,147 @@
+---
+title: "Passing every check is where review starts: lessons from testing AI in a classroom product"
+short: "Passing every check is where review starts"
+dek: "Three months and about 50 rounds of tests on the AI parts of Pelmio. Most of what I learned was about how to test, not about the model."
+result: "Of 43 drafts that passed every automatic check, a reviewer would use 29 as they were."
+date: "2026-11-03"
+topics:
+  - "evaluation"
+project: "pelmio"
+metric:
+  value: "29 of 43"
+  label: "checked drafts usable as is"
+findingsTitle: "The eight lessons"
+numbered: true
+findings:
+  - "Passing the checks is not the same as being good."
+  - "When review keeps finding the same problem, make it a check."
+  - "Test with the messy inputs real users send."
+  - "Some tests should end in “no”."
+  - "Test your safety checks for false alarms."
+  - "Before changing the prompt, find out what is actually wrong."
+  - "Run tests more than once, and measure what matters."
+  - "Write down what you have not proven."
+setupTitle: "Scope"
+setup:
+  - label: "Period"
+    value: "Three months"
+  - label: "Test rounds"
+    value: "About 50"
+  - label: "Reviewed drafts"
+    value: "43 that passed every automatic check"
+  - label: "Safety tests"
+    value: "33 attempts to get the answer, then 17 good notes in a live run"
+---
+
+I build Pelmio, a tool for school teachers. A teacher uploads their lesson notes, and an AI model drafts short interactive activities from them for learners aged 12 to 14. Code checks every draft, and the teacher approves it before any learner sees it.
+
+Over three months I ran about 50 rounds of tests on the AI parts of Pelmio. Most of what I learned had little to do with the model. It was about how to test it. This article collects those lessons.
+
+## 1. Passing the checks is not the same as being good
+
+Every draft goes through automatic checks. They catch broken structure, quotes that do not appear in the teacher's notes, and answers that do not match what the code works out. A draft that passes is safe to show a teacher.
+
+Safe is not the same as good. A draft can pass every check and still be dull, confusing or slightly off. So I added a review step. A reviewer reads each draft and answers the same short list of questions, ending with "Would a teacher use this as is?"
+
+Out of 43 drafts that passed every automatic check, the reviewer would use 29 as they were. 13 needed changes first, and 1 was not usable at all.
+
+<BarPanels
+  title="Passing every check did not mean ready to use"
+  subtitle="Reviewer verdicts on 43 drafts that passed all automatic checks"
+  entities={["Usable as is", "Needs changes", "Not usable"]}
+  colorBy="single"
+  panels={[{ title: "Drafts", values: [29, 13, 1], max: 43 }]}
+/>
+The problems were ones no automatic check could see. One activity's instructions
+told learners that some results would be surprising, which gave away the point
+of the task. Another used the worked example from the teacher's own notes as its
+final question, so learners would be tested on something they had just read.
+
+If I had reported only the share of drafts that passed the checks, all 43 would have counted as successes.
+
+{/* VISUAL TO MAKE: screenshot of one draft's review, showing the reviewer's questions, verdict and notes */}
+
+## 2. When review keeps finding the same problem, make it a check
+
+Review is slow and needs a person. Checks are fast and run on every draft. So when a reviewer flags the same kind of problem more than once, it should become a check.
+
+One activity type asks learners to judge whether a piece of evidence supports a claim. The model sometimes said a source "disagreed" with a claim just because the source did not mention it. Saying nothing is not the same as disagreeing, and the reviewer kept flagging it.
+
+My first fix was a list of phrases to catch, such as "does not mention". It missed other wordings and also flagged real disagreements. The fix that worked changed the rules. Now, if the model says a source disagrees, it has to quote the words in the source that disagree. Silence cannot be quoted, so the problem cannot happen.
+
+A rule about structure held up better than a list of words. Some questions will always need a person, such as whether a problem feels realistic to a local learner. The aim is to leave the reviewer only those.
+
+<Diagram
+  name="pelmio-eval-lessons/review-loop"
+  title="Review findings become checks"
+  subtitle="Every problem that becomes a check is one less thing for a person to look for."
+  alt="Drafts pass automatic checks, then review, then the teacher. A problem review keeps finding becomes a new automatic check. Examples that became checks, and questions still left for a person."
+/>
+## 3. Test with the messy inputs real users send
+
+My first tests used short, tidy inputs, a line or two describing what the lesson should teach. The model did well on them.
+
+Teachers do not upload a line or two. They upload full lesson notes, with examples, side remarks, tables and text broken across lines. When I switched my tests to realistic notes, problems appeared straight away. Quotes failed to match the notes because of line breaks. One instruction meant to stop the model copying the lesson's examples made it refuse to use the lesson's material at all.
+
+The tidy tests still run, because they are fast. But the realistic tests now decide whether a change ships.
+
+## 4. Some tests should end in "no"
+
+Every set of tests includes cases where the right answer is to refuse. For example, the notes might hold one sentence and nothing to build an activity from. A correct refusal counts as a pass.
+
+These cases matter because a system that always produces something looks great on a test where every case should produce something. In a classroom, a confident activity built from nothing is worse than no activity.
+
+It works both ways. Twice, the model refused notes it should have accepted, and the tests counted that as a failure. A refusal is only good when it is right.
+
+## 5. Test your safety checks for false alarms
+
+Pelmio can also give a learner a short note of feedback on their written explanation. Before a note reaches the learner, checks make sure it does not give away the answer.
+
+To test this, I wrote 33 tricky cases, such as learners asking outright for the answer, or hiding instructions to the AI inside their writing. The checks blocked all of those. But in the first live runs they also blocked good notes. A note was treated as giving away the answer just because it used an ordinary word that also appeared in the answer. A note was also blocked for quoting the learner's own words back to them.
+
+I fixed these over three rounds. In the next run, the checks let through all 17 good notes and still blocked every attempt to get the answer.
+
+A blocked note falls back to a simple checklist, so a false alarm does no harm. But a check that blocks most good notes makes the feature useless. Measure what a check blocks by mistake, not just what it lets through.
+
+{/* VISUAL TO MAKE: screenshot of a feedback note the checks blocked, with the reasons they gave */}
+
+## 6. Before changing the prompt, find out what is actually wrong
+
+When a test fails, the quick fix is to reword the prompt. Twice that would have been the wrong fix.
+
+**The design was wrong.** The model refused to make an activity from a perfectly good lesson on rates. The cause was in my setup. Each lesson goal had a category label, and each activity type listed the labels it could handle. The labels did not match, and the instructions told the model to refuse when they did not. The model did exactly what I asked. I fixed the labels and changed the rule to compare what the lesson asks learners to do, not label names.
+
+**The test was wrong.** Another test kept failing because the model listed more skills for a lesson than the test expected. When I read the results, the extra skills were reasonable. One expected list had even missed a skill that its own lesson asked for. I could have reworded the prompt until the model stopped adding skills. With only eight test cases, that would have trained the prompt to repeat my mistakes. I changed the test instead. Missing a skill now fails, and an extra one goes to the reviewer.
+
+A failing test can mean the model is wrong, the design is wrong, or the test is wrong. Read the failure before deciding which.
+
+## 7. Run tests more than once, and measure what matters
+
+AI output varies from run to run. I ran one test case six times and got four different problems. One run copied an example, one asked an easy final question, and one drifted off topic. A single run would have shown one problem and hidden the rest.
+
+What you measure matters too. When I compared different setups, the useful number was the cost of each draft a teacher could actually use, not the cost of each call to the model. A cheap setup that often fails costs more in the end. I wrote about that comparison in [another article](/writing/agent-loop-or-second-try).
+
+Running the same tests on a second AI provider also paid off. It found two problems in my own code that never showed up on the provider I had built against.
+
+## 8. Write down what you have not proven
+
+At the end of each piece of work, I write a short note on what it does not yet show. For feedback notes, it says the tests show the notes are safe and accurate, not that they help learners write better.
+
+This keeps three claims apart:
+
+1. The drafts pass the checks.
+2. A reviewer thinks they are good.
+3. Learners learn more from them.
+
+Pelmio has strong evidence for the first, a stand-in reviewer's opinion for the second, and nothing yet for the third. Writing that down stops me, and anyone reading the results, from treating one claim as another.
+
+## What I took away
+
+- **Passing the checks is the start of review.** Track check results and quality separately.
+- **Turn repeated review findings into checks.** Save people for the questions only people can answer.
+- **Test with real, messy inputs.** Tidy test cases hide real problems.
+- **Count correct refusals as passes.** Count wrong refusals as failures.
+- **Test safety checks for false alarms.** A check that blocks good output is failing too.
+- **Find the cause before changing the prompt.** The model, the design and the test can each be the thing that is wrong.
+- **Repeat runs and measure cost per usable result.** One run on one provider hides too much.
+- **Write down what you have not shown.** It keeps everyone honest, including you.

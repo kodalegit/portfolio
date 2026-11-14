@@ -1,0 +1,192 @@
+---
+title: "Agent loop or a second try? What I learned removing agents and then testing one again"
+short: "Agent loop or a second try?"
+dek: "Twice I had to choose between an agent and a single structured call for Pelmio. The second time, I built the agent and tested it against simpler options."
+result: "Two repair turns produced 26 of 27 usable drafts, at about a third of the agent loop’s tokens per usable draft."
+date: "2026-10-24"
+topics:
+  - "agents"
+  - "evaluation"
+project: "pelmio"
+metric:
+  value: "68.7k → 25.7k"
+  label: "tokens per usable draft, loop vs two repairs"
+findings:
+  - "Replacing Pelmio’s agents with one structured call and a repair turn made drafting faster, cheaper and more reliable. It passed the planning tests 9 out of 9."
+  - "On 14 cases with three runs each, two repair turns produced 26 of 27 usable drafts. An agent loop with engine tools produced 24."
+  - "The loop used 68,729 tokens per usable draft, against 25,715 for two repairs."
+  - "The loop’s tools checked structure, not facts, so they caught nothing a repair turn missed."
+decision: "Up to two repair turns for every activity type. The loop stays off by default, with a written condition for deleting it."
+setup:
+  - label: "Models"
+    value: "gpt-6-luna, then Claude Haiku 5.5 as a second provider"
+  - label: "Cases"
+    value: "14: eight adaptations and six new drafts"
+  - label: "Runs"
+    value: "Three per case for each setup, 42 per setup"
+  - label: "Setups"
+    value: "One repair, two repairs, an agent loop capped at six model calls"
+  - label: "Measure"
+    value: "Tokens per teacher-ready draft"
+---
+
+I build Pelmio, a tool for school teachers. A teacher uploads their lesson notes, and a language model drafts short interactive activities from them for learners aged 12 to 14. Code checks every draft, and the teacher approves it before any learner sees it.
+
+Twice I had to decide whether the drafting step should be an agent, a model that loops and calls tools until it is done, or a single structured call. The first time, I replaced agents with plain calls, and everything got faster, cheaper and more reliable. The second time, I hit a problem that looked like a good fit for an agent, so I built one and tested it against simpler options. A second retry beat the agent at about a third of the cost.
+
+This article covers both decisions, the trial, and the rule I now use.
+
+## Why the drafts need checking
+
+Each kind of activity in Pelmio has an engine, ordinary code that models the subject. For an electric circuits activity, the engine works out which bulbs light up. For an activity where learners identify substances by testing them, it works out which substances are still possible after each test result.
+
+The model writes everything else: the scenario, the materials, the questions and the quotes from the teacher's notes. A checker then runs the draft against the engine. I call it the compiler, because like a compiler it either accepts the draft and produces the final activity, or rejects it with a list of errors. It rejects a test that cannot tell any two substances apart, a fault in a circuit that a learner could never find, or a quote that does not appear in the notes.
+
+<Screenshot
+  src="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Articles/pelmio-teacher-review"
+  width={2529}
+  height={1418}
+  alt="Pelmio’s teacher studio showing a circuit lab mission, with what it covers, what it leaves out, who checked it, and buttons to use it, try it as a learner, or adapt it to the teacher’s notes."
+  caption="What a teacher sees before using an activity: what it covers, what it leaves out, and who checked it. Nothing reaches learners until the teacher assigns it."
+  wide
+/>
+So the model never decides a right answer. The engine does. Because of that, the worst outcome of any design I tried was a rejected draft, never a wrong activity in front of a learner. That made both decisions below safe to test.
+
+## Round one: from agents to fixed workflows
+
+I started with agents. Two steps ran as agents: reading the lesson notes for learning goals, and planning which activities to build. I used Deep Agents, a LangChain library for long-running agents. The agent loaded its instructions as it went, from a set of files it could open, and it could call validation tools to check its own work.
+
+On paper this looked flexible. When I read the traces, I saw three problems:
+
+- The agent took the same path on every run. It opened the same files in the same order and called the same tools.
+- It re-sent the whole lesson document on every turn, so token use grew with each step.
+- It spent turns finding out things my code already knew, such as which activity types existed and what limits applied.
+
+{/* VISUAL TO MAKE: excerpt of an agent trace from round one, showing the same file reads and tool calls repeated across runs */}
+On the model I was using, gpt-6-luna, most agent runs ended without a final answer at all.
+
+If the steps are the same every time, the program can run them. I replaced every agent with one pattern:
+
+```python
+answer = model.structured_call(instructions, evidence, schema)
+issues = validate(answer)
+if issues:
+    answer = model.repair(answer, issues)  # same conversation, one retry
+final = compiler.compile(answer)            # the compiler has the last word
+```
+
+The program sends the model everything it needs in the first message: the instructions, the reference material and the lesson notes. The model returns JSON that must match a schema. My validator checks it. If the validator finds problems, the program sends them back in the same conversation and asks for a corrected answer. I call that a repair turn. Then the compiler checks the final answer. A failed repair can only produce a rejection, never bad content.
+
+On the same model, the new workflow passed the planning tests 9 out of 9, and the generation tests for two activity types 6 out of 6 each. Reading a long document in sections took about 10 seconds and 9,900 input tokens. An earlier agent run of the same test had taken 29 seconds and 32,000.
+
+I wrote the lesson into the project's design doc as a rule:
+
+<Rule source="Pelmio’s design doc">
+
+If the flowchart is known before the model runs, it is code. Add a model-directed loop only when its actions return information the program could not have supplied in the first message.
+
+</Rule>
+
+## Round two: a case that seemed to need a loop
+
+A month later I added a library. A teacher picks a reviewed activity from it, and the model adapts it to the teacher's own notes. For example, it turns a general circuits activity into one about a torch.
+
+Some adaptations kept failing after their one repair. The failures had a pattern. The model was guessing at rules the engine could answer exactly.
+
+- In a substance-testing activity, the compiler reported a problem with an iron nail in the samples. The repair removed the nail. That left the magnet test unable to tell any two samples apart, which broke a different rule.
+- In an activity about weighing evidence, the model spent about 24,000 tokens reasoning before the compiler checked anything.
+
+I saw three options.
+
+**Better prompts.** The prompt already stated the rules. The model was not missing a rule. It could not predict how the engine would judge a specific draft until it saw the result. More instructions would not change that.
+
+**A second repair turn.** This is cheap to add. The model sees the compiler's new findings and tries again.
+
+**An agent loop with engine tools.** The model could ask the engine questions while drafting, such as "do these test results tell these substances apart?" or "where does this quote appear in the notes?"
+
+The loop seemed to pass my own rule. The engine's verdict on a draft is information the program cannot put in the first message, because the draft does not exist yet. So I built the loop and tested it against one and two repairs, instead of picking on instinct.
+
+## Building the loop
+
+I used LangChain's `create_agent`, not Deep Agents. It gave me tool calling across providers, typed final answers, call limits, retries, and a way to clear old tool results from the context. The last point fixed one of the costs I saw in round one.
+
+The parts that mattered were mine:
+
+- The compiler judged every draft. After each model turn, a hook compiled any draft the model submitted. If it failed, the errors went back to the model. If it passed, the run ended.
+- Each activity type declared its own read-only tools, such as checking a set of test results or finding a quote in the notes. No tool could change data or publish anything.
+- The run had a limit of six model calls. On the last allowed call I removed the tools, so the model had to submit a draft instead of asking another question.
+- If the run hit a limit, it returned the best draft so far, and the normal compiler checked it again. The loop could fail, but it could not publish a draft the compiler would refuse.
+- I recorded every turn in my own tables, with the tool name, argument size, result size, time and any error.
+
+<Diagram
+  name="pelmio-agent-loops/repair-vs-loop"
+  title="Two designs for drafting an activity"
+  subtitle="Both end at the same compiler. Only a draft that compiles reaches the teacher."
+  alt="Repair turns: a structured call, a validator and the compiler, with findings sent back up to two times. Agent loop: the model calls read-only tools, a judge hook compiles each draft and sends findings back, and the compiler checks the final draft."
+/>
+The turn records paid off right away. The first trial run found two bugs in my code. LangChain dropped tool arguments that used aliased field names, and my quote tool returned quotes with their punctuation stripped. I fixed both and reran the loop.
+
+{/* VISUAL TO MAKE: screenshot of the turn records, with the two rows that exposed the dropped arguments and the stripped quotes highlighted */}
+## The trial
+
+I compared three setups on the same cases:
+
+- one repair turn
+- two repair turns
+- the agent loop with tools
+
+There were 14 cases. Eight were adaptations, covering all five activity types. Six were new drafts for the two activity types that failed most often. Some cases were meant to be refused, for example notes that do not support the activity, and a correct refusal counted as a success. I ran each case three times per setup, so each setup had 42 runs, and 27 of those should have ended in a usable draft.
+
+I measured cost as tokens per teacher-ready draft, not tokens per call. A setup with cheap calls that often fails still costs more for each draft a teacher can use.
+
+| Setup | Runs as expected, of 42 | Ready drafts, of 27 | Rejected by compiler | Tokens per ready draft | Median time |
+| --- | --- | --- | --- | --- | --- |
+| One repair | 31 | 16 | 7 | 41,499 | 47 s |
+| Two repairs | 41 | 26 | 0 | 25,715 | 42 s |
+| Agent loop | 39 | 24 | 0 | 68,729 | 55 s |
+
+<BarPanels
+  title="Two repair turns made the most drafts at the lowest cost"
+  subtitle="14 cases, three runs each. 27 runs were expected to end in a usable draft."
+  entities={["One repair", "Two repairs", "Agent loop"]}
+  highlight="Two repairs"
+  panels={[
+    { title: "Ready drafts, of 27", values: [16, 26, 24], max: 27 },
+    { title: "Tokens per ready draft", values: [41499, 25715, 68729] },
+  ]}
+  wide
+/>
+The second repair turned 7 compiler rejections into 0. It needed 58 model calls across all 42 runs. The loop needed 129 model calls and 251 tool calls, and about 3.3 times the input tokens.
+
+Speed and token counts are not enough, so I also reviewed the drafts for quality. The loop and the two-repair setup came out about the same. Each had a draft that gave a food a test result the notes did not state, and one or two drafts a teacher would need to adjust.
+
+The reason was in what the tools checked. They checked structure, not facts. A tool can confirm that a set of test results tells the samples apart. It cannot tell you that beans do not stay brown in iodine. The tools caught nothing that a repair turn did not.
+
+## A second provider
+
+I wanted the result to hold on more than one model, so I ran the same trial on Claude Haiku 5.5, a cheaper model. Two repairs produced 5 ready drafts out of 27. The loop produced 3, made no draft at all in 15 of 27 runs, and used 3.6 million input tokens.
+
+The run showed that Haiku is not a good fit for this task. It refused drafts the notes supported and left out required parts. It still did not change the decision. It also exposed problems on my side. Anthropic's structured output rejected my schemas as too large, so those calls fell back to tool calling without schema enforcement. My code also set no prompt cache markers for Anthropic, so nothing was cached. A second provider is a cheap way to find this kind of problem.
+
+## The decision
+
+Drafting and adaptation now allow up to two repair turns for every activity type. The three adaptations that started this work each produced ready drafts in 3 out of 3 runs.
+
+I did not adopt the loop, and I did not delete it either. It is off by default, with a written condition for its future. It will run on the next activity type, where learners work out a hidden rule from examples. To draft that activity, the model has to search for examples that tell one rule from another. That is a search problem, and tools may help there. If the loop shows no gain there or on another provider, I delete it.
+
+## Why the loop lost
+
+My rule was right, but I applied it too loosely. The loop's purpose was to get the engine's verdict on a draft. The repair turn already gets that verdict. The compiler runs, and its errors go back to the model. The loop added more ways to ask, at the price of more turns and more tokens. It did not add information the model lacked.
+
+So I added a second question to the rule. Before building a loop, ask whether a validator and a repair turn already deliver the information the loop would fetch. If they do, the loop is the more expensive way to get the same thing.
+
+## What I took away
+
+- **If the program knows the steps, the program should run them.** An agent that takes the same path every time is a slow, expensive workflow.
+- **Use a loop when actions return information you could not send up front.** Search is the clearest case, because results decide the next query. First check that a repair turn does not already give the model that information.
+- **Put a deterministic check at the end.** Because the compiler had the last word, I could test a loop safely. The worst case was a rejection, not a bad activity in front of a learner.
+- **Compare designs on cost per usable output, with repeats.** Per call, one repair looked reasonable. Per ready draft, it cost about 60% more than two repairs and produced 10 fewer drafts.
+- **Record every turn.** The turn records turned two silent bugs into readable lines in a report.
+- **Decide with an exit condition.** "Off by default, deleted if the next activity type shows no gain" is a decision I can act on later. "Maybe later" is not.
+
+Most of the work in this project was not prompt writing. It was deciding where the model's judgement ends and the program's begins, and then measuring whether moving that line helped.

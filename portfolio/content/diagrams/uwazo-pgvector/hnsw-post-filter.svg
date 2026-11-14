@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 92 780 418" class="diagram-svg">
+<defs>
+  <marker id="arr-hnsw-post-filter" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--ink-2)"/></marker>
+  <marker id="arrb-hnsw-post-filter" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--d-blue)"/></marker>
+  <marker id="arro-hnsw-post-filter" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--d-orange)"/></marker>
+</defs>
+<text x="40" y="120" font-size="17.3" text-anchor="start" font-weight="bold" style="fill:var(--ink)">1. Index search: 40 nearest chunks from all users</text>
+<circle cx="60" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="94" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="128" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="162" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="196" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="230" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="264" cy="150" r="11" stroke-width="1.5" style="fill:var(--d-blue);stroke:var(--d-blue)"/>
+<circle cx="298" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="332" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="366" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="400" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="434" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="468" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="502" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="536" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="570" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="604" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="638" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="672" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="706" cy="150" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="60" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="94" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="128" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="162" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="196" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="230" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="264" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="298" cy="184" r="11" stroke-width="1.5" style="fill:var(--d-blue);stroke:var(--d-blue)"/>
+<circle cx="332" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="366" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="400" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="434" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="468" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="502" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="536" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="570" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="604" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="638" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="672" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+<circle cx="706" cy="184" r="11" stroke-width="1.5" style="fill:var(--surface);stroke:var(--muted)"/>
+
+<path d="M370,210 L370,255" fill="none" stroke-width="2" marker-end="url(#arr-hnsw-post-filter)" style="stroke:var(--ink-2)"/>
+<text x="385" y="238" font-size="16.2" text-anchor="start" font-weight="normal" class="dm" style="fill:var(--ink-2)">where user_id = :user</text>
+<text x="40" y="300" font-size="17.3" text-anchor="start" font-weight="bold" style="fill:var(--ink)">2. After the filter: 2 rows left, the query wanted 5</text>
+<circle cx="60" cy="330" r="11" style="fill:var(--d-blue)"/>
+<circle cx="94" cy="330" r="11" style="fill:var(--d-blue)"/>
+<circle cx="128" cy="330" r="11" fill=WHITE stroke-width="1.5" stroke-dasharray="4 3" style="stroke:var(--d-orange)"/>
+<circle cx="162" cy="330" r="11" fill=WHITE stroke-width="1.5" stroke-dasharray="4 3" style="stroke:var(--d-orange)"/>
+<circle cx="196" cy="330" r="11" fill=WHITE stroke-width="1.5" stroke-dasharray="4 3" style="stroke:var(--d-orange)"/>
+<text x="240" y="335" font-size="16.2" text-anchor="start" font-weight="normal" style="fill:var(--d-orange)">3 missing results</text>
+<circle cx="60" cy="390" r="8" style="fill:var(--d-blue)"/>
+<text x="78" y="395" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">chunk owned by this user, about 1 in 40 with 40 users</text>
+<line x1="40" y1="425" x2="740" y2="425" style="stroke:var(--line-2)"/>
+<text x="40" y="460" font-size="16.2" text-anchor="start" font-weight="normal" style="fill:var(--ink)">With hnsw.iterative_scan = relaxed_order, the index keeps searching</text>
+<text x="40" y="484" font-size="16.2" text-anchor="start" font-weight="normal" style="fill:var(--ink)">until enough rows pass the filter. Recall stayed at 0.98 or above.</text>
+</svg>

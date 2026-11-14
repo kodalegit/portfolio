@@ -1,0 +1,229 @@
+---
+title: "My research assistant started as a workflow. Better models made an agent the right default."
+short: "From workflow to agent"
+dek: "Three versions of Uwazo’s research path, each right for the models of its time, and a test of whether one tool-calling agent should now replace them."
+result: "A single tool-calling agent refused 2 of 18 research questions where my routed pipeline refused 10, at the same median speed."
+date: "2026-08-13"
+topics:
+  - "agents"
+  - "evaluation"
+project: "uwazo"
+metric:
+  value: "10 → 2"
+  label: "questions refused, pipeline vs agent"
+findings:
+  - "Uwazo’s routed pipeline refused 10 of 18 research questions. It planned every search before seeing any results, so it never fell back to the web."
+  - "One tool-calling agent with the same writer prompt refused 2, and matched the pipeline’s median time: 21 s against 22 s."
+  - "Deep research wrote the best answer 15 times out of 18, at twice the median time and nearly four times the main model tokens."
+  - "No design fixed accuracy. Each one made at least one real error."
+decision: "Make one tool-calling agent the default, rewrite the refusal rule for it, and rebuild deep research as that agent with subagents."
+setup:
+  - label: "Model"
+    value: "gpt-6-luna, for every setup and for scoring"
+  - label: "Summariser"
+    value: "gpt-5-nano, for web pages"
+  - label: "Questions"
+    value: "18 research questions and 3 chat messages, from a 50-question set"
+  - label: "Knowledge base"
+    value: "Three tax Acts in 348 chunks, no case law"
+  - label: "Scoring"
+    value: "Blind, 1 to 5 for accuracy, usefulness and grounding"
+code:
+  path: "uwazo-agent-design"
+  label: "Runner, judge and raw runs"
+  note: "It runs inside Uwazo’s private backend, so it is published to read rather than to rerun."
+---
+
+Uwazo is a tax research assistant I built for tax professionals in Kenya. A user asks a question, Uwazo searches Kenyan statutes, case law and the web, and it writes an answer with a citation for each claim.
+
+I have built the answering part three times since early 2025. Each version followed the best advice I had at the time, and each one was right for the models I was using. The models then got better at using tools, working in a loop and reacting to what they find. The design that used to be careful became the thing holding the answers back.
+
+This article follows that path. It covers the guidance I started from, the three versions it produced, a test I ran to check whether my current view holds, and what I would build now.
+
+## The guidance I started from
+
+When I started, the clearest guide was Anthropic's ["Building effective agents"](https://www.anthropic.com/research/building-effective-agents), published in December 2024. It draws a line between two kinds of system:
+
+- **Workflows.** "systems where LLMs and tools are orchestrated through predefined code paths."
+- **Agents.** Systems where "LLMs dynamically direct their own processes and tool usage".
+
+Its main advice was to start simple, "finding the simplest solution possible, and only increasing complexity when needed." It said workflows "offer predictability and consistency for well-defined tasks", and that agents trade "latency and cost for better task performance", with "the potential for compounding errors". It also named a set of workflow patterns, such as prompt chaining, routing and parallelization, as building blocks to try before a fully autonomous agent.
+
+That matched what I saw. In early 2025, the models I used were slow and inconsistent when left to run multi-step tool use on their own. A fixed sequence of calls was faster, cheaper and easier to debug. So I built workflows, and I added each pattern only when a specific problem asked for it.
+
+## Version 1: a prompt chain
+
+The first version, from February 2025, was a fixed chain. By June it worked like this. For every message it rewrote the question as a search query and turned it into an embedding. It then searched two places at once: notes Uwazo kept from the user's earlier chats, and the knowledge base of tax law. Both sets of results went into one prompt, and the model wrote the answer.
+
+It was easy to build and easy to debug, because every message took the same path. The same path was also the problem:
+
+- A greeting or a "thanks" triggered a full search.
+- A question with three parts got one search query, so at least one part came back thin.
+- There was no web search, so anything newer than the knowledge base was out of reach.
+
+## Version 2: plan, search in parallel, then write
+
+In July 2025 I split the work into a planner, an executor and a writer. The planner reads the question and returns a list of searches as JSON, for example two statute searches and one web search. The executor runs them all at once, which is the parallelization pattern. The writer gets the results and writes the answer, following rules about citations and about what to do when the evidence is thin.
+
+This fixed the multi-part questions and added the web, and it kept the cost predictable. The pipeline makes three model calls and runs its searches together, so it answers in roughly the same time every time.
+
+At the same time I added deep research, behind a toggle. Deep research is a tool-calling agent. It plans, searches, reads the results, and decides whether to search again, until it is ready to answer. It was an agent in the guide's sense, and I treated it the way the guide suggested, as the expensive option. The user opts in.
+
+<Screenshot
+  src="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Articles/uwazo-deep-research-run"
+  width={1600}
+  height={684}
+  alt="Uwazo running deep research on a question about the tax appeals process. The research process panel shows a plan, then a search of Kenyan statutory law and its results."
+  caption="Deep research in Uwazo. It writes a plan, searches, reads the results and decides what to search next."
+/>
+
+## Version 3: a router in front
+
+A few days later I added a gatekeeper, which is the routing pattern. It is a small model call that runs before anything else. At first it chose between three actions: answer directly, ask a clarifying question, or research. In September 2025 I cut it to two, answer directly or research, and had it also rate the question's complexity. The complexity rating sets how much reasoning effort the later model calls use.
+
+<Diagram
+  name="uwazo-agent-design/current-graph"
+  title="Uwazo’s current research graph"
+  subtitle="A gatekeeper routes each message. Deep research is a separate agent behind a toggle."
+  alt="A message goes to a gatekeeper, which routes it to a direct answer, to the standard pipeline of planner, parallel searches and writer, or to the deep research agent."
+/>
+This is the design Uwazo runs today. Every research question makes at least
+three model calls, for the gatekeeper, the planner and the writer. Each web
+search adds calls to a smaller model that summarises the pages it found.
+
+## What changed
+
+Over the next year the models changed more than my design did. Each new model I tried was better at calling tools, at running for several steps without losing track, and at changing course when a result surprised it. The cost and latency that made agents the expensive option shrank.
+
+The same guide had already said where agents fit: "open-ended problems where it's difficult or impossible to predict the required number of steps". Search is that kind of problem. Whether a statute search comes back empty decides whether the next search should go to the web. A plan written before the first search cannot know that. Once a model could make that decision reliably, at about the cost of a workflow, the reason to fix the path in code was gone.
+
+So my view changed. A tool-calling agent should now be the default for search. Deep research is the next step on the same path. The guide described an orchestrator-workers pattern, where "a central LLM dynamically breaks down tasks, delegates them to worker LLMs, and synthesizes their results." Current models can run that orchestration themselves, handing parts of a question to subagents. That gives a second way to scale up: deeper and wider research, not only a longer loop.
+
+That was still an opinion, so I tested it before writing this.
+
+## The test
+
+In September 2025 I wrote 50 evaluation questions, drawn from tax forums and common business scenarios. I had run some of them before in temporary scripts. For this test I wrote a runner and a scoring script that I can keep and run again.
+
+I took 18 of them, chosen at random within each difficulty level: 4 basic facts, 9 applied questions and 5 complex scenarios. I added three chat messages: "Hello", "Can you help me with my taxes?" and "Thanks, that was helpful!".
+
+Each question ran through three setups:
+
+- **Pipeline.** Uwazo's current setup with deep research off: the gatekeeper, then plan, search and write.
+- **Deep.** Uwazo's current setup with deep research on: the gatekeeper, then the deep research agent.
+- **Agent.** A prototype I wrote for the test. It is one tool-calling agent with no gatekeeper. Its prompt is the pipeline writer's prompt, unchanged, plus a short section on tool use: search before answering a legal question, search again if the results are thin, answer greetings without tools, and make at most five tool calls.
+
+All three used the same model, gpt-6-luna, the same tools and the same local copy of the knowledge base. That copy holds three Acts, the Income Tax Act, the VAT Act and the Tax Procedures Act, in 348 chunks, with no case law. Web search was on for all three.
+
+To score the answers, I gave each question's three answers to a separate gpt-6-luna call, labelled A, B and C in a random order. It scored each answer from 1 to 5 for accuracy, usefulness and grounding, meaning whether specific figures and rules carry a citation. It also flagged answers that refused to answer, and picked the best of the three. I then read the flagged cases myself.
+
+The runner, the scoring script, the raw runs and the scores are <Experiment path="uwazo-agent-design">on GitHub</Experiment>.
+
+## Results
+
+Numbers are for the 18 research questions. "Main model" means gpt-6-luna, which does the routing, planning, searching and writing. The summariser is a smaller model, gpt-5-nano, that condenses each web page before the main model reads it. Its tokens are much cheaper, so I count them on a separate row.
+
+|                                | Pipeline | Agent  | Deep    |
+| ------------------------------ | -------- | ------ | ------- |
+| Refused to answer              | 10       | 2      | 1       |
+| Usefulness, of 5               | 2.2      | 3.8    | 4.6     |
+| Accuracy, of 5                 | 4.1      | 4.1    | 4.3     |
+| Grounding, of 5                | 2.9      | 3.7    | 3.7     |
+| Picked as best answer          | 0        | 3      | 15      |
+| Median time                    | 22 s     | 21 s   | 44 s    |
+| Slowest 10% from               | 36 s     | 32 s   | 119 s   |
+| Main model calls per question  | 3.0      | 2.4    | 5.7     |
+| Main model tokens per question | 8,189    | 10,763 | 39,331  |
+| Summariser tokens per question | 46,774   | 21,638 | 221,950 |
+| Searches per question          | 2.2      | 3.6    | 6.3     |
+
+<BarPanels
+  title="The agent refused less than the pipeline, at the same speed"
+  subtitle="18 research questions. gpt-6-luna for every setup and for the blind scoring."
+  entities={["Pipeline", "Agent", "Deep research"]}
+  panels={[
+    { title: "Refused to answer, of 18", values: [10, 2, 1], max: 18 },
+    { title: "Usefulness, of 5", values: [2.2, 3.8, 4.6], max: 5 },
+    {
+      title: "Median time",
+      values: [22, 21, 44],
+      labels: ["22 s", "21 s", "44 s"],
+    },
+    { title: "Main model tokens per question", values: [8189, 10763, 39331] },
+  ]}
+  wide
+/>
+### The pipeline refused more than half the questions
+
+The pipeline said it could not find the information for 10 of the 18 questions. Most were about employment, tenancy and business disputes, which the three Acts in the knowledge base do not cover.
+
+The cause is the order of operations. The planner chooses every search before it sees any results. For a question about workplace sexual harassment, it planned one statute search and one case law search, both written as long questions. The statute search returned tax law, and the case law search returned nothing. The writer then followed its rules, which say to refuse a specific question when the evidence does not answer it. It never got the chance to search the web, because the plan had no web search in it.
+
+The agent used the same writer rules. When its first searches came back thin, it searched again, usually on the web. It searched in more than one round in a third of the questions, and refused only 2 times.
+
+The pipeline's refusals are a correct application of its rules. The rules were written for a writer that cannot ask for more evidence. Once the model can search again, the right response to thin evidence is another search, not a refusal.
+
+### The agent matched the pipeline on speed
+
+The agent's median time was 21 seconds, against 22 for the pipeline. It made fewer model calls, because it had no gatekeeper and no separate planner.
+
+It used about 30% more main model tokens. It ran more searches, and each search result stays in its conversation for the rest of the run. On the other hand, it used less than half the summariser tokens. The agent wrote short keyword queries and the planner wrote full questions, which may explain that difference, but I did not test it.
+
+The agent also handled all three chat messages without calling a tool. It replied in 1.5 to 2.5 seconds, against 3.5 to 5.3 seconds for the gatekeeper path, which makes two model calls for a greeting. The gatekeeper's one job was to keep small talk away from the research tools, and the agent did that on its own.
+
+### Deep research wrote the best answers, at a high cost
+
+The judge picked a deep research answer as the best 15 times out of 18. Deep answers were longer and went further into the user's situation. In a question about casual workers, for example, it separated genuine short-term casual work from regular employment before it applied the tax rules.
+
+The cost was high. Deep research was twice as slow at the median, and its slowest runs took 2 to 5 minutes. It used almost four times the agent's main model tokens and ten times its summariser tokens. One run hit the agent's step limit and returned "I was unable to complete the research", after nine searches. The user would have waited almost a minute for that.
+
+### Neither design was reliably accurate
+
+Accuracy was close across all three, between 4.1 and 4.3. Each setup made at least one real error. On a bakery's VAT question, the pipeline and deep research both got the threshold calculation wrong, and only the agent got it right. On the corporate tax rate, the agent said 30% has applied "from 2020 onward". The rate was cut to 25% for most of 2020 and went back to 30% in 2021. On the digital service tax, the pipeline and the agent both gave the wrong year for its replacement. Better routing did not fix any of these.
+
+## What I would build now
+
+The test supports the view I started with, with one change. I expected the agent to be cheaper than the pipeline. It was not. It was about as fast and about as costly, and it gave far more useful answers. On these models, the tradeoff the guide warned about, more cost and latency for better results, barely shows up for the default path. It still shows up for deep research.
+
+**Make the tool-calling agent the default.** It replaces the gatekeeper, the planner and the separate writer. The writer's citation rules move into the agent's prompt unchanged. A tool-call budget keeps the cost close to the pipeline's.
+
+**Rewrite the refusal rule for an agent.** "Refuse when the evidence is thin" made sense for a writer that could not search. For an agent, the rule becomes: search again with a different source or different terms, and refuse only after that fails.
+
+**Build deep research as the same agent with subagents.** This is the orchestrator-workers pattern, with the model as the orchestrator. The main agent splits a complex question into parts, and a subagent researches each part with its own budget and its own context. The main agent then writes the answer from their summaries. This keeps long search results out of the main conversation, which is where the current deep agent spends its tokens. I have not tested this part yet.
+
+**Return partial results at the limit.** When deep research runs out of steps, it should write the best answer it can from what it found, not discard nine searches.
+
+**Run the evaluation set on every change to the workflow.** It took one script and one background run. It would have shown the refusal problem as soon as it appeared.
+
+<Diagram
+  name="uwazo-agent-design/proposed-design"
+  title="Proposed: one agent by default, subagents for depth"
+  subtitle="The agent decides whether to search, and searches again when results are thin."
+  alt="One research agent handles every message and calls search tools. For deep research, it hands sub-questions to three subagents, each with its own tools and budget, and writes the answer from their summaries."
+/>
+## How this fits with not using an agent elsewhere
+
+In another project, Pelmio, the model drafts learning activities and a checker written in ordinary code tests each draft. There I [tested an agent loop against a repair turn](/writing/agent-loop-or-second-try), a second attempt in which the model sees the errors the checker found. I kept the repair turn. That can look like the opposite conclusion. It is the same rule applied to a different task.
+
+The rule is to use a loop when the model's actions return information it could not have had at the start. In Pelmio, the loop's tools told the model whether its draft would pass the checker, and the repair turn already gave it that information. In Uwazo, a search result is exactly that kind of information. Whether the statute search came back empty decides whether the next search should go to the web. A plan made before any search cannot use it.
+
+<Limits>
+
+## Limits of this test
+
+- The same model wrote the answers and judged them. The judge could not see the sources, so it scored accuracy from its own knowledge of Kenyan law. I checked the refusals and the errors quoted above by hand, not every claim.
+- 18 questions are enough to show large gaps, such as 10 refusals against 2. They are not enough to rank close results, such as the accuracy scores.
+- My local knowledge base has three tax Acts and no case law. A fuller library would reduce the pipeline's refusals on statute questions. It would not change the cause, which is a plan fixed before any results.
+- The agent prototype's prompt was written once and not tuned. The pipeline's prompts have been tuned for months.
+- I tested on one current model. The point of this article is that the right design depends on the model, so the result may not hold for older or smaller models.
+
+</Limits>
+
+## What I took away
+
+- **Start simple, then revisit the choice when the models change.** Workflows were the right call for the models I had in early 2025. The same reasoning points to an agent now. A design decision has a date on it.
+- **Name the pattern you are using and why.** Each version of Uwazo used a pattern from the same guide. Knowing why I chose each one made it easy to see which reasons no longer held.
+- **A fixed plan cannot react to its own results.** If what a search returns should change the next step, the next step belongs to the model.
+- **Check what each routing step still does.** The gatekeeper kept greetings away from the tools. The agent did that without it, faster.
+- **Rules depend on the design around them.** The refusal rule was right for a writer that could not search, and wrong once the model could.
+- **Keep the evaluation runner.** My earlier evaluations lived in temporary scripts, so nothing re-ran them after each change to the workflow. A runner I keep in the repo would have shown the refusals when they started.

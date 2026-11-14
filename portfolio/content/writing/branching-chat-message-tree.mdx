@@ -1,0 +1,144 @@
+---
+title: "Edit, regenerate, switch back: building branching chat on a message tree"
+short: "Branching chat on a message tree"
+dek: "Keeping every edited question and regenerated answer in Uwazo, so a user can compare versions and go back. How I stored the tree, and two bugs I hit on the way."
+result: "A flat list of messages with parent ids and one active-leaf pointer was enough for branching chat. The two bugs came from ids and from a null with two meanings."
+date: "2026-05-26"
+topics:
+  - "product-engineering"
+project: "uwazo"
+findingsTitle: "In short"
+findings:
+  - "Each message stores its parent, and the conversation stores one pointer to the active leaf. That was enough for edit, regenerate and switch."
+  - "The client and the server both rebuild the visible conversation by walking up from that pointer, and the model only sees that path."
+  - "A quick regenerate could send a temporary id the server had never seen. The fix was to let the server own ids and swap them early."
+  - "`null` meant both “this is a root” and “work it out yourself”. An explicit flag fixed it."
+setupTitle: "Stack"
+setup:
+  - label: "Frontend"
+    value: "Next.js"
+  - label: "Backend"
+    value: "FastAPI"
+  - label: "Storage"
+    value: "Messages as a JSON array on each conversation row in Postgres"
+  - label: "Streaming"
+    value: "A created event with the saved id, then the answer tokens"
+---
+
+Uwazo is a tax research assistant I built for tax professionals in Kenya. A user asks a question, reads the answer, and often wants a second try. They reword the question, or they ask the assistant to answer again. Most chat apps handle this by deleting what came after. I wanted Uwazo to keep every version, so a user could compare two answers and go back to the one they preferred.
+
+That turns a conversation from a list into a tree. This article covers how I stored the tree, how the client and server agree on where each new message goes, two bugs I hit on the way, and what I would change now.
+
+<Screenshot
+  src="https://gi9pozqnuexhf2qt.public.blob.vercel-storage.com/Articles/message-branch-switcher"
+  width={1601}
+  height={871}
+  alt="An answer in Uwazo with copy, regenerate and a 2/2 switcher below it, followed by the user’s next question."
+  caption="The switcher under an answer. This one has been regenerated, so it shows 2/2."
+/>
+
+## The data model
+
+Each message records its parent. The conversation records one more thing, the id of the last message on the branch the user is currently looking at. In tree terms, that message is a leaf, because nothing hangs below it yet, so I call it the active leaf.
+
+```json
+{
+  "messages": [
+    {
+      "id": "u1",
+      "parent_id": null,
+      "role": "user",
+      "content": "Is VAT due on exported services?"
+    },
+    { "id": "a1", "parent_id": "u1", "role": "assistant", "content": "..." },
+    { "id": "a2", "parent_id": "u1", "role": "assistant", "content": "..." },
+    {
+      "id": "u2",
+      "parent_id": "a2",
+      "role": "user",
+      "content": "What records prove the export?"
+    },
+    { "id": "a3", "parent_id": "u2", "role": "assistant", "content": "..." }
+  ],
+  "metadata": { "active_leaf_id": "a3" }
+}
+```
+
+Here the user regenerated the first answer, so `a1` and `a2` share a parent. They then continued from `a2`. The conversation the user sees is the path from the active leaf back to the root: `u1`, `a2`, `u2`, `a3`.
+
+Conversations were already stored as a JSON array in one column on the `conversations` table. Adding `parent_id` to each message and `active_leaf_id` to the metadata needed no migration, and old conversations still worked. A message with no parent is a root, and a conversation with no active leaf falls back to its last message.
+
+<Diagram
+  name="uwazo-branching/message-tree"
+  title="One conversation, stored as a tree"
+  subtitle="The user sees the path from the active leaf back to the root."
+  alt="Message u1 has two answers, a1 and a2. The active path runs u1, a2, u2, a3, and a1 is kept as a sibling reachable with the switcher."
+/>
+## Three ways to add a message
+
+Every write to the tree is one of three operations. The only difference between them is where the new message attaches.
+
+- **Send.** The new user message attaches to the last assistant message on the active path.
+- **Edit.** The edited question becomes a new user message with the same parent as the original. The original stays where it was, as a sibling.
+- **Regenerate.** No new user message. A new assistant message attaches to the existing user message, as a sibling of the old answer.
+
+After each write, the server moves the active leaf to the new message. When the answer starts streaming, the server creates the assistant message under the active leaf and moves the leaf again.
+
+## Reading the tree
+
+The client keeps the same flat list and computes everything else from it.
+
+To render the conversation, it walks from the active leaf to the root by following `parent_id`, then reverses the result. To show the "2 of 3" switcher on a message, it finds the other messages with the same parent and the same role. Those are its siblings.
+
+Switching takes one more step. When the user clicks to the next sibling, the client cannot just make that sibling the active leaf, because the sibling may have its own replies below it. So it follows the last child down from the sibling until it reaches a message with no children, and makes that the active leaf. The user lands at the end of the branch they switched to.
+
+The server does the same walk before it calls the model. `_get_active_branch` builds the path from the active leaf, and only that path becomes the model's conversation history. Without that step, the model would read every abandoned answer and every pre-edit question as if they were part of the conversation.
+
+## Bug 1: the client and server used different ids
+
+The client shows a user's message the moment they press send, before the server has saved it. To do that, it gives the message a temporary id. The server then saves the message with its own id.
+
+For a plain send this did not matter. For regenerate, it did. If a user regenerated an answer right after sending, the client sent the temporary id as the parent. The server had never seen that id, so it could not attach the new answer.
+
+My first fix, on the day after branching shipped, was on the server. When it received a regenerate, it searched backwards for the last user message with the same text and used that as the parent. It worked in testing, but it was wrong. A user who asks the same question twice in one conversation, which happens with follow-ups like "can you explain that more simply?", would get the new answer attached to the wrong message.
+
+The real fix two days later made the two sides agree on ids:
+
+1. The server emits a `created` event with the saved message's id as soon as it stores the user message, before any answer tokens.
+2. The client replaces the temporary id with the real one. It also updates every message whose `parent_id` was the temporary id, and the active leaf if it pointed there.
+3. Every request from then on carries a real id, so the server can trust the parent the client sends.
+
+The content match came out. The rule I took from it is that only one side should create ids, and the other side should switch to them as early as possible.
+
+<Diagram
+  name="uwazo-branching/id-swap-sequence"
+  title="Swapping the temporary id"
+  subtitle="The server owns ids. The client switches to them before any later request."
+  alt="The browser shows a message with a temporary id, the server saves it and returns the real id in a created event, and the browser swaps the ids before any later request."
+/>
+## Bug 2: `null` meant two different things
+
+The send endpoint took an optional `parent_id`. If the client sent one, the server used it. If not, the server attached the message to the active leaf.
+
+{/* VISUAL TO MAKE: short screen recording of editing the first question in a conversation, showing the edit appear as a new version of the first message */}
+Editing broke on one message, the first one. An edited question gets the same parent as the original. The first question has no parent, so the client sent `parent_id: null`. The server read `null` as "no parent given" and attached the edit to the active leaf, at the bottom of the conversation. The user expected a new root and got a new message at the end.
+
+`null` meant "this is a root" in one case and "work it out yourself" in the other. I fixed it by adding an explicit `is_edit` flag. When it is set, the server uses `parent_id` as given, including `null`. The cleaner fix would be to make the client always send the parent, so the server never has to guess. The client now names a parent for every send after the first message, so the active-leaf fallback rarely runs.
+
+## What I would change
+
+The design has held up, but I would change three things.
+
+**Branch switches are not saved.** Switching branches only changes the active leaf on the client. The server learns about it on the next send, because that send names its parent. If the user switches to an older answer and reloads the page, they land back on the newest branch. A small endpoint that saves `active_leaf_id` on each switch would fix it.
+
+**Switching lands on the newest reply, not the last one viewed.** When a user switches to a sibling, the client follows the last child at each level. If that branch has its own sub-branches, the user lands on the most recent one, which may not be the one they were reading. Storing the last viewed child per message would fix this, at the cost of more writes.
+
+**The whole conversation is one JSON value.** Each turn rewrites the full message array. If two requests on the same conversation overlap, for example from two browser tabs, both start from the same array and the later write drops the earlier one's messages. A `messages` table with a `parent_id` column would make each write an insert, and a recursive query could return the active path. I would make that change before the conversations get long or users start sharing them.
+
+## What I took away
+
+- **Store the tree, render the path.** A flat list with parent ids and one pointer to the active leaf was enough. The client and the server both derive the visible conversation by walking up from that pointer.
+- **Give the model only the active branch.** Branching is a display feature for the user, but the history the model sees has to follow the same path, or old answers leak into new ones.
+- **Let one side own the ids.** Temporary ids are fine for display. They should be replaced before any later request can refer to them.
+- **Do not let a missing value carry meaning.** If `null` can be a real value, "not provided" needs its own signal.
+- **Name a known gap with its fix.** Each item above has a small, specific change attached, which makes it easy to pick up later.

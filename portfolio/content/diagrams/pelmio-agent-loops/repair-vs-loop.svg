@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 92 1020 568" class="diagram-svg">
+<defs>
+  <marker id="arr-repair-vs-loop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--ink-2)"/></marker>
+  <marker id="arrb-repair-vs-loop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--d-blue)"/></marker>
+  <marker id="arro-repair-vs-loop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--d-orange)"/></marker>
+</defs>
+<text x="40" y="135" font-size="18.4" text-anchor="start" font-weight="bold" style="fill:var(--d-blue)">Repair turns, adopted</text>
+<rect x="40" y="155" width="200" height="80" rx="8" stroke-width="1.5" style="fill:var(--d-blue-bg);stroke:var(--d-blue)"/>
+<text x="140.0" y="190.125" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Structured call</text>
+<text x="140.0" y="210.375" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">instructions + notes</text>
+<rect x="300" y="155" width="200" height="80" rx="8" stroke-width="1.5" style="fill:var(--d-panel);stroke:var(--line-2)"/>
+<text x="400.0" y="190.125" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Validator</text>
+<text x="400.0" y="210.375" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">schema and rules</text>
+<rect x="560" y="155" width="200" height="80" rx="8" stroke-width="1.5" style="fill:var(--d-panel);stroke:var(--line-2)"/>
+<text x="660.0" y="190.125" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Compiler</text>
+<text x="660.0" y="210.375" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">checks against engine</text>
+<rect x="820" y="155" width="160" height="80" rx="8" stroke-width="1.5" style="fill:var(--d-panel);stroke:var(--line-2)"/>
+<text x="900.0" y="190.125" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Teacher</text>
+<text x="900.0" y="210.375" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">reviews draft</text>
+<path d="M240,195 L298,195" fill="none" stroke-width="2" marker-end="url(#arr-repair-vs-loop)" style="stroke:var(--ink-2)"/>
+<path d="M500,195 L558,195" fill="none" stroke-width="2" marker-end="url(#arr-repair-vs-loop)" style="stroke:var(--ink-2)"/>
+<path d="M760,195 L818,195" fill="none" stroke-width="2" marker-end="url(#arr-repair-vs-loop)" style="stroke:var(--ink-2)"/>
+<text x="789" y="185" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">pass</text>
+<path d="M530,235 C530,290 140,290 140,237" fill="none" stroke-width="2" marker-end="url(#arro-repair-vs-loop)" style="stroke:var(--d-orange)"/>
+<text x="335" y="300" font-size="15.1" text-anchor="middle" font-weight="normal" style="fill:var(--d-orange)">Findings go back in the same conversation. Up to 2 repair turns.</text>
+<line x1="40" y1="335" x2="980" y2="335" stroke-width="1" style="stroke:var(--line-2)"/>
+<text x="40" y="380" font-size="18.4" text-anchor="start" font-weight="bold" style="fill:var(--ink-2)">Agent loop with engine tools, trialled</text>
+<rect x="40" y="400" width="200" height="80" rx="8" stroke-width="1.5" style="fill:var(--d-blue-bg);stroke:var(--d-blue)"/>
+<text x="140.0" y="435.125" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Model</text>
+<text x="140.0" y="455.375" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">up to 6 calls</text>
+<rect x="40" y="540" width="200" height="80" rx="8" stroke-width="1.5" style="fill:var(--d-panel);stroke:var(--line-2)"/>
+<text x="140.0" y="575.125" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Read-only tools</text>
+<text x="140.0" y="595.375" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">check results, find quotes</text>
+<rect x="300" y="400" width="200" height="80" rx="8" stroke-width="1.5" style="fill:var(--d-panel);stroke:var(--line-2)"/>
+<text x="400.0" y="435.125" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Judge hook</text>
+<text x="400.0" y="455.375" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">compiles each draft</text>
+<rect x="560" y="400" width="200" height="80" rx="8" stroke-width="1.5" style="fill:var(--d-panel);stroke:var(--line-2)"/>
+<text x="660.0" y="435.125" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Compiler</text>
+<text x="660.0" y="455.375" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">final check</text>
+<rect x="820" y="400" width="160" height="80" rx="8" stroke-width="1.5" style="fill:var(--d-panel);stroke:var(--line-2)"/>
+<text x="900.0" y="435.125" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Teacher</text>
+<text x="900.0" y="455.375" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">reviews draft</text>
+<path d="M120,480 L120,538" fill="none" stroke-width="2" marker-end="url(#arr-repair-vs-loop)" style="stroke:var(--ink-2)"/>
+<path d="M160,540 L160,482" fill="none" stroke-width="2" marker-end="url(#arr-repair-vs-loop)" style="stroke:var(--ink-2)"/>
+<text x="110" y="515" font-size="14.0" text-anchor="end" font-weight="normal" style="fill:var(--ink-2)">ask</text>
+<text x="170" y="515" font-size="14.0" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">result</text>
+<path d="M240,440 L298,440" fill="none" stroke-width="2" marker-end="url(#arr-repair-vs-loop)" style="stroke:var(--ink-2)"/>
+<path d="M500,440 L558,440" fill="none" stroke-width="2" marker-end="url(#arr-repair-vs-loop)" style="stroke:var(--ink-2)"/>
+<path d="M760,440 L818,440" fill="none" stroke-width="2" marker-end="url(#arr-repair-vs-loop)" style="stroke:var(--ink-2)"/>
+<text x="270" y="430" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">draft</text>
+<text x="530" y="430" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">pass</text>
+<text x="789" y="430" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">pass</text>
+<path d="M400,480 C400,520 270,520 242,470" fill="none" stroke-width="2" marker-end="url(#arro-repair-vs-loop)" style="stroke:var(--d-orange)"/>
+<text x="420" y="512" font-size="14.0" text-anchor="start" font-weight="normal" style="fill:var(--d-orange)">findings</text>
+<text x="300" y="600" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">Last call has no tools, so the model must submit a draft.</text>
+<text x="300" y="622" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">At the limit, the best judged draft goes to the compiler.</text>
+</svg>

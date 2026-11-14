@@ -1,0 +1,13 @@
+[project]
+name = "uwazo-pgvector-experiment"
+version = "0.1.0"
+description = "Reproduces a pgvector recall bug: an IVFFlat index built on an empty table, and HNSW with per-user filters."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastembed>=0.9.1",
+    "numpy>=2.5.4",
+    "pgvector>=0.5.1",
+    "psycopg[binary]>=3.3.9",
+    "scikit-learn>=1.9.1",
+]

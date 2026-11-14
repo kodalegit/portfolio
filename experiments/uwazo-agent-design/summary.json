@@ -1,0 +1,106 @@
+{
+ "pipeline": {
+  "research_runs": 18,
+  "median_seconds": 21.75,
+  "p90_seconds": 35.7,
+  "mean_main_calls": 3,
+  "mean_main_input_tokens": 7602,
+  "mean_main_output_tokens": 587,
+  "mean_summarizer_tokens": 46774,
+  "mean_tool_calls": 2.22,
+  "share_using_web": 0.5,
+  "no_tool_calls": 0,
+  "chat_tool_calls": [
+   0,
+   0,
+   0
+  ],
+  "chat_seconds": [
+   5.3,
+   3.9,
+   3.5
+  ],
+  "recursion_errors": 0,
+  "multi_round_share": 0.0,
+  "judge": {
+   "accuracy": 4.11,
+   "usefulness": 2.17,
+   "grounding": 2.94,
+   "declined": 10,
+   "best_research": 0,
+   "best_all": 1
+  }
+ },
+ "agent": {
+  "research_runs": 18,
+  "median_seconds": 21.15,
+  "p90_seconds": 32.0,
+  "mean_main_calls": 2.39,
+  "mean_main_input_tokens": 10220,
+  "mean_main_output_tokens": 543,
+  "mean_summarizer_tokens": 21638,
+  "mean_tool_calls": 3.61,
+  "share_using_web": 0.72,
+  "no_tool_calls": 0,
+  "chat_tool_calls": [
+   0,
+   0,
+   0
+  ],
+  "chat_seconds": [
+   1.5,
+   2.5,
+   2.2
+  ],
+  "recursion_errors": 0,
+  "multi_round_share": 0.33,
+  "judge": {
+   "accuracy": 4.11,
+   "usefulness": 3.78,
+   "grounding": 3.67,
+   "declined": 2,
+   "best_research": 3,
+   "best_all": 4
+  }
+ },
+ "deep": {
+  "research_runs": 18,
+  "median_seconds": 44.0,
+  "p90_seconds": 118.9,
+  "mean_main_calls": 5.72,
+  "mean_main_input_tokens": 37528,
+  "mean_main_output_tokens": 1803,
+  "mean_summarizer_tokens": 221950,
+  "mean_tool_calls": 6.28,
+  "share_using_web": 0.72,
+  "no_tool_calls": 0,
+  "chat_tool_calls": [
+   0,
+   0,
+   0
+  ],
+  "chat_seconds": [
+   5.2,
+   3.5,
+   4.3
+  ],
+  "recursion_errors": 1,
+  "multi_round_share": 0.94,
+  "judge": {
+   "accuracy": 4.28,
+   "usefulness": 4.56,
+   "grounding": 3.72,
+   "declined": 1,
+   "best_research": 15,
+   "best_all": 16
+  }
+ },
+ "routes": {
+  "pipeline:proceed_to_research": 18,
+  "agent:tools": 18,
+  "deep:proceed_to_research": 18,
+  "pipeline:respond_directly": 3,
+  "agent:direct": 3,
+  "deep:respond_directly": 3
+ }
+}

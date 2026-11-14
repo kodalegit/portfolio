@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 92 1020 378" class="diagram-svg">
+<defs>
+  <marker id="arr-review-loop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--ink-2)"/></marker>
+  <marker id="arrb-review-loop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--d-blue)"/></marker>
+  <marker id="arro-review-loop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--d-orange)"/></marker>
+</defs>
+<rect x="40" y="130" width="170" height="70" rx="8" stroke-width="1.5" style="fill:var(--d-blue-bg);stroke:var(--d-blue)"/>
+<text x="125.0" y="160.125" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Draft</text>
+<text x="125.0" y="180.375" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">from the AI model</text>
+<rect x="270" y="130" width="220" height="70" rx="8" stroke-width="1.5" style="fill:var(--d-panel);stroke:var(--line-2)"/>
+<text x="380.0" y="160.125" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Automatic checks</text>
+<text x="380.0" y="180.375" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">structure, quotes, answers</text>
+<rect x="550" y="130" width="200" height="70" rx="8" stroke-width="1.5" style="fill:var(--d-panel);stroke:var(--line-2)"/>
+<text x="650.0" y="160.125" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Review</text>
+<text x="650.0" y="180.375" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">a fixed list of questions</text>
+<rect x="810" y="130" width="170" height="70" rx="8" stroke-width="1.5" style="fill:var(--d-panel);stroke:var(--line-2)"/>
+<text x="895.0" y="160.125" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Teacher</text>
+<text x="895.0" y="180.375" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">approves</text>
+<path d="M210,165 L268,165" fill="none" stroke-width="2" marker-end="url(#arr-review-loop)" style="stroke:var(--ink-2)"/>
+<path d="M490,165 L548,165" fill="none" stroke-width="2" marker-end="url(#arr-review-loop)" style="stroke:var(--ink-2)"/>
+<path d="M750,165 L808,165" fill="none" stroke-width="2" marker-end="url(#arr-review-loop)" style="stroke:var(--ink-2)"/>
+<text x="519" y="155" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">pass</text>
+<path d="M650,200 C650,280 380,280 380,203" fill="none" stroke-width="2" marker-end="url(#arro-review-loop)" style="stroke:var(--d-orange)"/>
+<text x="515" y="300" font-size="15.1" text-anchor="middle" font-weight="normal" style="fill:var(--d-orange)">A problem review keeps finding becomes a new check</text>
+<text x="40" y="360" font-size="17.3" text-anchor="start" font-weight="bold" style="fill:var(--ink)">Became checks</text>
+<text x="40" y="390" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">- Disagreement must be quoted from the source</text>
+<text x="40" y="414" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">- No internal reference codes in what learners see</text>
+<text x="40" y="438" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">- Feedback cannot mention results that never happened</text>
+<text x="560" y="360" font-size="17.3" text-anchor="start" font-weight="bold" style="fill:var(--ink)">Still for a person</text>
+<text x="560" y="390" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">- Does the problem feel realistic to a local learner?</text>
+<text x="560" y="414" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">- Does the final question make learners think?</text>
+<text x="560" y="438" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">- Would a teacher use this as is?</text>
+</svg>

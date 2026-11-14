@@ -1,0 +1,319 @@
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  padding-top: 2rem;
+}
+
+.grid > * {
+  min-width: 0;
+}
+
+.article {
+  max-width: 42rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.toc,
+.rail {
+  display: none;
+}
+
+@media (min-width: 72rem) {
+  .grid {
+    grid-template-columns: 10.5rem minmax(0, 42rem) 14.5rem;
+    gap: 2.75rem;
+    justify-content: center;
+  }
+
+  .article {
+    margin: 0;
+  }
+
+  .toc,
+  .rail {
+    display: block;
+  }
+
+  .setupInline {
+    display: none;
+  }
+}
+
+/* ---------- Contents ---------- */
+.tocNav {
+  position: sticky;
+  top: 1.5rem;
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+}
+
+.tocNav h2,
+.railBox h2 {
+  font-size: 0.8125rem;
+  font-weight: 650;
+  margin: 0 0 0.6rem;
+}
+
+.tocNav ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.875rem;
+  border-left: 1px solid var(--line);
+}
+
+.tocNav a {
+  display: block;
+  text-decoration: none;
+  color: var(--muted);
+  padding: 0.25rem 0 0.25rem 0.85rem;
+  margin-left: -1px;
+  border-left: 1px solid transparent;
+  line-height: 1.35;
+}
+
+.tocNav a:hover {
+  color: var(--ink);
+}
+
+.tocNav a[aria-current] {
+  color: var(--ink);
+  border-left-color: var(--ink);
+}
+
+/* ---------- Header ---------- */
+.back {
+  font-size: 0.875rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.back:hover {
+  color: var(--ink);
+}
+
+.kicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin: 1.25rem 0 0.75rem;
+}
+
+.topic {
+  color: var(--ink-2);
+  font-weight: 550;
+}
+
+.head h1 {
+  margin: 0;
+  font-size: clamp(1.9rem, 1.3rem + 2.4vw, 2.6rem);
+  line-height: 1.1;
+  font-weight: 750;
+  font-stretch: 108%;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.dek {
+  font-size: 1.1875rem;
+  color: var(--ink-2);
+  margin: 1rem 0 0;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+
+.findings {
+  margin: 2rem 0 0;
+  padding: 1.1rem 1.25rem 1.15rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.findings h2 {
+  margin: 0 0 0.6rem;
+  font-size: 0.9375rem;
+  font-weight: 650;
+}
+
+.findings ol,
+.findings ul {
+  margin: 0;
+  padding-left: 1.4rem;
+  color: var(--ink-2);
+}
+
+.findings li {
+  padding: 0.2rem 0 0.2rem 0.25rem;
+}
+
+.findings li::marker {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.findings code,
+.decision code {
+  font-size: 0.85em;
+  background: var(--raise);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+.decision {
+  margin: 0.85rem 0 0;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+  color: var(--ink-2);
+}
+
+.decision strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+/* ---------- Setup ---------- */
+.setupInline {
+  margin-top: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 0.8rem 1.25rem;
+  font-size: 0.9375rem;
+}
+
+.setupInline summary {
+  cursor: pointer;
+  font-weight: 650;
+}
+
+.setupInline[open] summary {
+  margin-bottom: 0.75rem;
+}
+
+.setupList {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.setupList div + div {
+  margin-top: 0.7rem;
+}
+
+.setupList dt {
+  color: var(--muted);
+}
+
+.setupList dd {
+  margin: 0.1rem 0 0;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.setupInline .setupList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: 0.7rem 1.25rem;
+}
+
+.setupInline .setupList div + div {
+  margin-top: 0;
+}
+
+.repo {
+  margin: 1rem 0 0;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.875rem;
+}
+
+.repo a {
+  font-weight: 600;
+}
+
+.repo span {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.rail {
+  padding-top: 2.6rem;
+}
+
+.railBox {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+}
+
+/* ---------- End ---------- */
+.codeCard {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.codeCard p {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 0.9375rem;
+  max-width: 28rem;
+}
+
+.codeCard strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.end {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 1.5rem 2rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 44rem) {
+  .end {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.end h2 {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  font-weight: 550;
+  margin: 0 0 0.35rem;
+}
+
+.end p {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 0.9375rem;
+}
+
+.next {
+  font-weight: 650;
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.next:hover {
+  text-decoration: underline;
+}

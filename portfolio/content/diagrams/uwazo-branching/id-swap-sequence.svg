@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 92 1000 573" class="diagram-svg">
+<defs>
+  <marker id="arr-id-swap-sequence" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--ink-2)"/></marker>
+  <marker id="arrb-id-swap-sequence" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--d-blue)"/></marker>
+  <marker id="arro-id-swap-sequence" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--d-orange)"/></marker>
+</defs>
+<rect x="240" y="105" width="180" height="46" rx="8" stroke-width="1.5" style="fill:var(--d-blue-bg);stroke:var(--d-blue)"/>
+<text x="330.0" y="133.25" font-size="16.2" text-anchor="middle" font-weight="normal" style="fill:var(--ink)">Browser</text>
+<rect x="700" y="105" width="180" height="46" rx="8" stroke-width="1.5" style="fill:var(--d-panel);stroke:var(--line-2)"/>
+<text x="790.0" y="133.25" font-size="16.2" text-anchor="middle" font-weight="normal" style="fill:var(--ink)">Server</text>
+<line x1="330" y1="151" x2="330" y2="600" stroke-width="2" stroke-dasharray="6 5" style="stroke:var(--line-2)"/>
+<line x1="790" y1="151" x2="790" y2="600" stroke-width="2" stroke-dasharray="6 5" style="stroke:var(--line-2)"/>
+<text x="40" y="190" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink)">1. Show the message at once</text>
+<text x="40" y="210" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">id = tmp-7f3, parent = a2</text>
+<path d="M330,260 L786,260" fill="none" stroke-width="2" marker-end="url(#arr-id-swap-sequence)" style="stroke:var(--ink-2)"/><text x="560.0" y="250" font-size="15.1" text-anchor="middle" font-weight="normal" style="fill:var(--ink)">send  { parent_id: a2, content }</text>
+<text x="805" y="290" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink)">2. Save it</text>
+<text x="805" y="310" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">id = u2</text>
+<path d="M790,345 L334,345" fill="none" stroke-width="2" marker-end="url(#arrb-id-swap-sequence)" style="stroke:var(--d-blue)"/><text x="560.0" y="335" font-size="15.1" text-anchor="middle" font-weight="normal" style="fill:var(--ink)">created  { id: u2 }</text>
+<text x="40" y="380" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink)">3. Replace tmp-7f3 with u2</text>
+<text x="40" y="400" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">in the message id, in any child's</text>
+<text x="40" y="420" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">parent_id, and in the active leaf</text>
+<path d="M790,480 L334,480" fill="none" stroke-width="2" marker-end="url(#arr-id-swap-sequence)" style="stroke:var(--ink-2)"/><text x="560.0" y="470" font-size="15.1" text-anchor="middle" font-weight="normal" style="fill:var(--ink)">tokens for a3, parent u2</text>
+<path d="M330,560 L786,560" fill="none" stroke-width="2" marker-end="url(#arrb-id-swap-sequence)" style="stroke:var(--d-blue)"/><text x="560.0" y="550" font-size="15.1" text-anchor="middle" font-weight="normal" style="fill:var(--ink)">regenerate  { parent_id: u2 }</text>
+<text x="805" y="590" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink)">Server finds u2</text>
+<text x="40" y="640" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--d-orange)">Before the fix, step 3 did not exist. A quick regenerate sent tmp-7f3, which the server had never seen.</text>
+</svg>

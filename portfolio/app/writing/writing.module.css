@@ -1,0 +1,26 @@
+.head {
+  padding: 3rem 0 2rem;
+  max-width: 44rem;
+}
+
+.head h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2.25rem, 1.6rem + 3vw, 3.25rem);
+  line-height: 1;
+  font-weight: 800;
+  font-stretch: 125%;
+  letter-spacing: -0.025em;
+}
+
+.head p {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+.head .feed {
+  margin-top: 0.75rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}

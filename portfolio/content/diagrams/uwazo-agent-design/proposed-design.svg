@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 92 1020 623" class="diagram-svg">
+<defs>
+  <marker id="arr-proposed-design" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--ink-2)"/></marker>
+  <marker id="arrb-proposed-design" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--d-blue)"/></marker>
+  <marker id="arro-proposed-design" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--d-orange)"/></marker>
+</defs>
+<rect x="40" y="150" width="150" height="64" rx="8" stroke-width="1.5" style="fill:var(--d-panel);stroke:var(--line-2)"/>
+<text x="115.0" y="187.25" font-size="16.2" text-anchor="middle" font-weight="normal" style="fill:var(--ink)">Message</text>
+<rect x="260" y="140" width="260" height="84" rx="8" stroke-width="1.5" style="fill:var(--d-blue-bg);stroke:var(--d-blue)"/>
+<text x="390.0" y="167.0" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Research agent</text>
+<text x="390.0" y="187.25" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">writer's citation rules</text>
+<text x="390.0" y="207.5" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">tool budget</text>
+<path d="M190,182 L258,182" fill="none" stroke-width="2" marker-end="url(#arr-proposed-design)" style="stroke:var(--ink-2)"/>
+<rect x="620" y="150" width="200" height="64" rx="8" stroke-width="1.5" style="fill:var(--d-panel);stroke:var(--line-2)"/>
+<text x="720.0" y="187.25" font-size="16.2" text-anchor="middle" font-weight="normal" style="fill:var(--ink)">Answer</text>
+<path d="M520,182 L618,182" fill="none" stroke-width="2" marker-end="url(#arr-proposed-design)" style="stroke:var(--ink-2)"/>
+<rect x="260" y="290" width="260" height="56" rx="8" stroke-width="1.5" style="fill:var(--d-panel);stroke:var(--line-2)"/>
+<text x="390.0" y="313.125" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Tools</text>
+<text x="390.0" y="333.375" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">statutes, case law, web</text>
+<path d="M370,224 L370,288" fill="none" stroke-width="2" marker-end="url(#arr-proposed-design)" style="stroke:var(--ink-2)"/>
+<path d="M410,290 L410,226" fill="none" stroke-width="2" marker-end="url(#arr-proposed-design)" style="stroke:var(--ink-2)"/>
+<text x="360" y="262" font-size="14.0" text-anchor="end" font-weight="normal" style="fill:var(--ink-2)">search</text>
+<text x="420" y="262" font-size="14.0" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">results</text>
+<line x1="40" y1="390" x2="980" y2="390" style="stroke:var(--line-2)"/>
+<text x="40" y="430" font-size="18.4" text-anchor="start" font-weight="bold" style="fill:var(--ink-2)">Deep research</text>
+<rect x="40" y="455" width="260" height="84" rx="8" stroke-width="1.5" style="fill:var(--d-blue-bg);stroke:var(--d-blue)"/>
+<text x="170.0" y="482.0" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Research agent</text>
+<text x="170.0" y="502.25" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">splits the question,</text>
+<text x="170.0" y="522.5" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">writes from summaries</text>
+<rect x="420" y="440" width="230" height="56" rx="8" stroke-width="1.5" style="fill:var(--surface);stroke:var(--d-blue)"/>
+<text x="535.0" y="463.125" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Subagent 1</text>
+<text x="535.0" y="483.375" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">own tools, budget, context</text>
+<path d="M300,497 C360,497 360,468 418,468" fill="none" stroke-width="2" marker-end="url(#arrb-proposed-design)" style="stroke:var(--d-blue)"/>
+<rect x="420" y="520" width="230" height="56" rx="8" stroke-width="1.5" style="fill:var(--surface);stroke:var(--d-blue)"/>
+<text x="535.0" y="543.125" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Subagent 2</text>
+<text x="535.0" y="563.375" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">own tools, budget, context</text>
+<path d="M300,497 C360,497 360,548 418,548" fill="none" stroke-width="2" marker-end="url(#arrb-proposed-design)" style="stroke:var(--d-blue)"/>
+<rect x="420" y="600" width="230" height="56" rx="8" stroke-width="1.5" style="fill:var(--surface);stroke:var(--d-blue)"/>
+<text x="535.0" y="623.125" font-size="16.2" text-anchor="middle" font-weight="bold" style="fill:var(--ink)">Subagent 3</text>
+<text x="535.0" y="643.375" font-size="14.0" text-anchor="middle" font-weight="normal" style="fill:var(--ink-2)">own tools, budget, context</text>
+<path d="M300,497 C360,497 360,628 418,628" fill="none" stroke-width="2" marker-end="url(#arrb-proposed-design)" style="stroke:var(--d-blue)"/>
+<text x="690" y="502" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">Each returns a short summary,</text>
+<text x="690" y="524" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">so long search results stay out</text>
+<text x="690" y="546" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--ink-2)">of the main conversation.</text>
+<text x="40" y="690" font-size="15.1" text-anchor="start" font-weight="normal" style="fill:var(--d-orange)">Not yet tested. The default agent was tested as a prototype.</text>
+</svg>

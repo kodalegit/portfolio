@@ -1,0 +1,252 @@
+---
+title: "Our search got worse as we added documents. The cause was an index built on an empty table."
+short: "The index built on an empty table"
+dek: "Uwazo’s document search started missing passages I knew were there. I rebuilt the setup to find out why, and why switching to HNSW only partly fixed it."
+result: "Recall fell to 0.20 once Postgres started using an IVFFlat index built on an empty table. Iterative HNSW scans brought per-user recall to 0.99."
+date: "2026-08-20"
+topics:
+  - "retrieval"
+project: "uwazo"
+metric:
+  value: "0.22 → 0.99"
+  label: "recall on per-user searches"
+numbered: true
+findings:
+  - "An IVFFlat index built on an empty table fills its list centres with random numbers. Postgres printed a warning, and the migration passed anyway."
+  - "Recall looked perfect on small tables because the planner skipped the index. It fell to 0.20 once the index was used."
+  - "Rebuilding the index with real data only reached 0.44 until `probes` was tuned."
+  - "HNSW fixed unfiltered search but fell to 0.58 on per-user searches. Iterative scans brought it to 0.99."
+decision: "Build approximate indexes after the data exists, turn on iterative scans for filtered HNSW queries, and keep a small recall test."
+setup:
+  - label: "Database"
+    value: "Postgres 17, pgvector 0.8.6"
+  - label: "Data"
+    value: "20 Newsgroups, 19,375 chunks of about 120 words"
+  - label: "Embeddings"
+    value: "bge-small-en-v1.5, 384 dimensions"
+  - label: "Users"
+    value: "40 simulated, three topics each"
+  - label: "Questions"
+    value: "300 held out"
+  - label: "Ground truth"
+    value: "Exact top five, computed in NumPy"
+code:
+  path: "uwazo-pgvector"
+  label: "Scripts and raw results"
+  note: "Self-contained: Postgres in Docker, Python with uv."
+---
+
+Uwazo is a tax research assistant I built for tax professionals in Kenya. Users upload their own documents, and the assistant searches them alongside a shared library of tax law. Search runs on Postgres with the pgvector extension. Each document is split into chunks, and each chunk is stored as an embedding, a list of numbers that captures its meaning. A search finds the chunks whose embeddings are closest to the question's. A vector index makes that fast by searching approximately instead of comparing every row, which means it can miss some of the right chunks.
+
+Early in development, retrieval was accurate. Then I added more documents, and the assistant started missing passages I knew were there. I switched the vector indexes from IVFFlat to HNSW, the problem went away, and I wrote it off as "IVFFlat needs reindexing when data grows".
+
+I had no metrics from that time. To write this up properly, I rebuilt the setup and measured it. The measurements showed that my explanation was only partly right. They also showed a second problem that HNSW had hidden rather than fixed.
+
+## The query
+
+Every document search in Uwazo ran a query like this:
+
+```sql
+select e.content, 1 - (e.embedding <=> :query) as similarity
+from document_embeddings e
+join documents d on d.id = e.document_id
+where d.deleted_at is null
+  and d.user_id = :user_id
+  and d.client_id is not distinct from :client_id
+order by e.embedding <=> :query
+limit 5;
+```
+
+It finds the five chunks closest to the question, but only among the current user's documents. The vector index speeds up the `order by`. The `where` clause decides which rows count.
+
+The index came from an early migration, in the same file that created the table:
+
+```sql
+create index on document_embeddings using ivfflat (embedding vector_cosine_ops);
+```
+
+## Rebuilding the problem
+
+I reproduced Uwazo's schema and query in a fresh pgvector 0.8.6 database on Postgres 17. For data, I used the 20 Newsgroups corpus, which has 20 topics. I split it into 19,375 chunks of about 120 words and embedded them on my laptop with bge-small-en-v1.5. That model produces 384-dimension vectors. Uwazo used 1536-dimension OpenAI embeddings, but the index behaves the same way.
+
+I gave the chunks to 40 simulated users, each working on three topics, and added documents in four stages: 1,000, 3,000, 10,000 and 19,375 chunks. At each stage I ran 300 held-out questions against two copies of the table. One copy had IVFFlat, created on the empty table as in Uwazo. The other had HNSW.
+
+To get the right answers, I computed the exact five nearest chunks for each question in NumPy. Recall is the share of those five that the database returned. A recall of 1.0 means the search found every correct chunk.
+
+The scripts and raw results are <Experiment path="uwazo-pgvector">on GitHub</Experiment>, with instructions to run them.
+
+## Finding 1: Postgres told me
+
+Creating an IVFFlat index on an empty table prints this:
+
+```text
+NOTICE:  ivfflat index created with little data
+DETAIL:  This will cause low recall.
+HINT:  Drop the index until the table has more data.
+```
+
+Uwazo's migration would have printed the same notice. A notice does not fail a migration, so it went unnoticed.
+
+IVFFlat works by grouping vectors into lists. When you build the index, it samples the table and picks one centre for each list, 100 lists by default. Every vector, then and later, goes into the list with the nearest centre. A query only scans the lists whose centres are closest to the question. By default it scans one.
+
+On an empty table there is nothing to sample, so pgvector fills the centres with random numbers between 0 and 1. All of those centres point into the same narrow region, so they split real embeddings poorly. Every vector added later goes into a list chosen by those random centres. Related chunks end up spread across many lists, and a query that scans one list misses most of them.
+
+<CentroidIllustration />
+## Finding 2: it looked fine because the index was not used
+
+This table shows recall for the user-filtered query, the one Uwazo actually ran.
+
+| Chunks in table | IVFFlat built empty  | HNSW                 |
+| --------------- | -------------------- | -------------------- |
+| 1,000           | 1.00, index not used | 1.00, index not used |
+| 3,000           | 0.53                 | 1.00, index not used |
+| 10,000          | 0.20                 | 0.74                 |
+| 19,375          | 0.22                 | 0.58                 |
+
+<LineChart
+  title="Recall fell once the planner started using the index"
+  subtitle="Per-user search, 40 users, 300 questions. Share of the exact top five returned."
+  x={{
+    values: [1000, 3000, 10000, 19375],
+    labels: ["1,000", "3,000", "10,000", "19,375"],
+    log: true,
+    name: "chunks",
+  }}
+  y={{ max: 1, ticks: [0, 0.25, 0.5, 0.75, 1] }}
+  series={[
+    {
+      name: "HNSW",
+      color: 1,
+      values: [1, 1, 0.74, 0.58],
+      hollow: [true, true, false, false],
+    },
+    {
+      name: "IVFFlat built empty",
+      color: 2,
+      values: [1, 0.53, 0.2, 0.22],
+      hollow: [true, false, false, false],
+    },
+  ]}
+  notes={[
+    ["index not used", "index not used", null, null],
+    ["index not used", null, null, null],
+  ]}
+  hollowNote="Planner skipped the index"
+/>
+At 1,000 chunks, the Postgres planner decided that reading the whole table was
+cheaper than using the index. A full scan compares every row, so it returns
+exact results. The broken index existed but was never used.
+
+At 3,000 chunks, the planner switched to the index and recall fell to 0.53. At 10,000, it was 0.20. Almost half of the questions got back none of the five correct chunks.
+
+So retrieval did not degrade slowly as data grew. It worked while the planner skipped the index, and broke when the planner started using it. That explains why my small development corpus never showed the problem.
+
+## Finding 3: reindexing alone is not enough
+
+My original explanation was "IVFFlat needs reindexing". I tested that at full size, with all 40 users, and compared it with the other settings.
+
+| Setup at 19,375 chunks             | Recall, filtered by user | Recall, no filter |
+| ---------------------------------- | ------------------------ | ----------------- |
+| IVFFlat built empty                | 0.22                     | 0.26              |
+| IVFFlat built empty, `probes = 10` | 0.77                     | 0.83              |
+| IVFFlat rebuilt with data          | 0.44                     | 0.57              |
+| IVFFlat rebuilt, `probes = 10`     | 0.91                     | 0.97              |
+| HNSW, default settings             | 0.58                     | 0.99              |
+| HNSW, `ef_search = 100`            | 0.86                     | 1.00              |
+| HNSW, iterative scan               | 0.99                     | 0.99              |
+
+<GroupedBars
+  title="Rebuilding alone was not enough"
+  subtitle="Recall of the top five at 19,375 chunks and 40 users"
+  series={["Filtered by user", "No filter"]}
+  rows={[
+    { label: "IVFFlat built empty", values: [0.22, 0.26] },
+    { label: "IVFFlat built empty, probes = 10", values: [0.77, 0.83] },
+    { label: "IVFFlat rebuilt with data", values: [0.44, 0.57] },
+    { label: "IVFFlat rebuilt, probes = 10", values: [0.91, 0.97] },
+    { label: "HNSW, default settings", values: [0.58, 0.99] },
+    { label: "HNSW, ef_search = 100", values: [0.86, 1.0] },
+    { label: "HNSW, iterative scan", values: [0.99, 0.99] },
+  ]}
+  wide
+/>
+Rebuilding the index with real data doubled recall, but it stayed low. The
+default of 100 lists was too many for this table. With 19,375 rows, each list
+held about 190 vectors, and scanning one list meant reading 1% of the data. The
+pgvector docs suggest about one list per 1,000 rows and scanning about the
+square root of the list count. Rebuilding and setting `probes = 10` brought
+recall to 0.91.
+
+Even then, IVFFlat needs care in an app where users upload documents every day. Its centres reflect the data at build time. As new topics arrive, the lists drift out of balance, and someone has to remember to rebuild the index and tune the settings.
+
+HNSW has no build-time sample. It builds a graph and links each new vector into it as you insert. Without a filter, it kept recall above 0.99 at every size, with no tuning. That is why switching worked.
+
+## Finding 4: HNSW has its own problem with filters
+
+The first table also shows HNSW falling to 0.58 for the filtered query. At full size, two out of three questions got fewer than five results back.
+
+The cause is the order of operations. HNSW finds the 40 nearest candidates by default, set by `hnsw.ef_search`. Postgres then applies the `where` clause. If a user owns 2.5% of the rows, about one of those 40 candidates belongs to them, and the query returns one or two chunks instead of five.
+
+<Diagram
+  name="uwazo-pgvector/hnsw-post-filter"
+  title="Why a per-user filter starves HNSW"
+  subtitle="The index returns ef_search = 40 candidates. Postgres applies the user filter afterwards."
+  alt="The index returns 40 candidates from all users. Two belong to this user, so the filtered query returns 2 rows instead of 5."
+/>
+How much this matters depends on what share of the rows the filter keeps. I
+reran the full-size test with fewer users:
+
+| Users | Share of rows per user | HNSW default | HNSW iterative scan | IVFFlat built empty |
+| ----- | ---------------------- | ------------ | ------------------- | ------------------- |
+| 1     | all                    | 0.99         | 0.99                | 0.28                |
+| 4     | about 25%              | 0.97         | 0.98                | 0.24                |
+| 10    | about 10%              | 0.91         | 0.98                | 0.28                |
+| 40    | about 2.5%             | 0.58         | 0.99                | 0.22                |
+
+<LineChart
+  title="HNSW recall drops as each user’s share of rows shrinks"
+  subtitle="19,375 chunks, per-user search"
+  x={{
+    values: [1, 4, 10, 40],
+    labels: ["1 user", "4 users", "10 users", "40 users"],
+    sublabels: [
+      "all rows",
+      "about 25% each",
+      "about 10% each",
+      "about 2.5% each",
+    ],
+  }}
+  y={{ max: 1, ticks: [0, 0.25, 0.5, 0.75, 1] }}
+  series={[
+    { name: "HNSW", color: 1, values: [0.99, 0.97, 0.91, 0.58] },
+    { name: "IVFFlat built empty", color: 2, values: [0.28, 0.24, 0.28, 0.22] },
+    {
+      name: "HNSW, iterative scan",
+      color: 3,
+      values: [0.99, 0.98, 0.98, 0.99],
+    },
+  ]}
+/>
+With only a few test accounts in development, nearly every row passes the
+filter, so HNSW looks fully fixed. With many users, each owning a small share of
+the data, the same symptom would have come back.
+
+pgvector 0.8 added iterative index scans for this case. With `hnsw.iterative_scan = relaxed_order`, the index keeps searching until enough rows pass the filter. Recall stayed at 0.98 or above for every number of users I tested. Raising `ef_search` to 100 also helps, but only partly, because a smaller share per user needs a larger value.
+
+## What I would do now
+
+- **Create approximate indexes after the data exists, or use HNSW.** If a migration has to create an IVFFlat index on an empty table, plan to rebuild it once the table has real data.
+- **Read migration notices.** The warning here was exact, and it named the fix.
+- **Test retrieval at the size you expect to reach.** A small table lets the planner skip the index, so a small test can pass while the index is broken.
+- **Check the plan.** `explain` shows whether a query uses the vector index. A test that passes on a sequential scan tells you nothing about the index.
+- **Treat filtered vector search as a separate case.** Measure recall with filters as selective as your real ones. Per-user filters get more selective as the user count grows.
+- **Turn on iterative scans for filtered HNSW queries.** Check your version with `select extversion from pg_extension where extname = 'vector'`. Relaxed order can return rows slightly out of order, so sort the final rows again by distance.
+- **Keep a small recall test.** Exact nearest neighbours in NumPy for a few hundred questions take seconds to compute, and they turn "retrieval feels worse" into a number.
+
+<Limits>
+
+## Limits of this test
+
+This is a reconstruction, not a measurement of the original system. The corpus is newsgroup posts, not tax law. The embeddings are 384 dimensions, not 1536. The users are simulated. Timings are not reported because, at under 20,000 rows, every setup answered in a few milliseconds. The mechanisms are general, though. Random centres from an empty build, a planner that skips the index on small tables, and filters applied after the index search all follow from how pgvector and Postgres work, and the numbers show the size of each effect.
+
+</Limits>
