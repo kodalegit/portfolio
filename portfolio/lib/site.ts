@@ -5,7 +5,7 @@ export const site = {
   role: "Applied AI engineer",
   location: "Kenya",
   url: (
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://victorkimani.vercel.app"
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://victorkimani.com"
   ).replace(/\/$/, ""),
   description:
     "Applied AI engineer in Kenya. I build agents, retrieval systems and the evaluations that show whether they work.",

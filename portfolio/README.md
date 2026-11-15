@@ -25,7 +25,7 @@ Then open [localhost:3000](http://localhost:3000).
 | `pnpm typecheck` | Runs TypeScript without emitting files |
 | `pnpm diagrams` | Regenerates the article diagrams (needs Python 3, no packages) |
 
-Set `NEXT_PUBLIC_SITE_URL` in production if the site moves off `victorkimani.vercel.app`. It is used for canonical links, RSS, the sitemap and social images.
+The site lives at `victorkimani.com`. Set `NEXT_PUBLIC_SITE_URL` if it moves. It is used for canonical links, RSS, the sitemap and social images.
 
 ## Where things live
 

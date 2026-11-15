@@ -1,6 +1,6 @@
 # pgvector recall: an IVFFlat index built on an empty table
 
-Code and results for [Our search got worse as we added documents. The cause was an index built on an empty table.](https://victorkimani.vercel.app/writing/pgvector-empty-index)
+Code and results for [Our search got worse as we added documents. The cause was an index built on an empty table.](https://victorkimani.com/writing/pgvector-empty-index)
 
 It rebuilds Uwazo’s document search in a fresh database: the same schema, the same per-user query and the same index migrations. Documents arrive in stages, and each stage measures recall against exact nearest neighbours computed in NumPy.
 

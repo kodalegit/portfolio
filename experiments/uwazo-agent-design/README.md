@@ -1,6 +1,6 @@
 # Uwazo: routed pipeline, deep research and one tool-calling agent
 
-Code and results for [My research assistant started as a workflow. Better models made an agent the right default.](https://victorkimani.vercel.app/writing/workflow-to-agent)
+Code and results for [My research assistant started as a workflow. Better models made an agent the right default.](https://victorkimani.com/writing/workflow-to-agent)
 
 It compares three designs on the same 18 research questions and 3 chat messages, with the same model, tools and knowledge base:
 
