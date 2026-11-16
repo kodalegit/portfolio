@@ -111,8 +111,10 @@ RESUMES = {
                 "Built Ujenzi, an XGBoost app that predicts concrete strength, for an engineering consultancy.",
             ]},
             {**CRAFTED, "bullets": [
-                "Built and deployed the AI backend for an enterprise debt-recovery platform, adding case summarization, AI-assisted data queries and communication workflows to the client's existing applications.",
-                "Built human approval flows, retrieval pipelines and evaluation tooling, with security controls for sensitive financial and customer data.",
+                "Built and deployed the AI backend for an enterprise debt-recovery platform that banks and SACCOs use to work portfolios of thousands of debtor case files, integrated into the client's existing applications.",
+                "Built case-summarization agents that turn debt histories, customer messages and account records into a summary and recommended next steps.",
+                "Built an agent that writes SQL to retrieve customer records, drafts SMS, email and WhatsApp messages, and charts data. A person approves every outbound message before it is sent.",
+                "Built retrieval pipelines, evaluation tests, access controls and PII safeguards. Prompt and date-context changes cut date-range errors from about 30% to zero on the targeted tests.",
             ]},
             {**ISLET, "bullets": [
                 "Built and launched the digital platform for a national pharmaceutical association with 13,000+ members.",
